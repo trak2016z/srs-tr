@@ -1,0 +1,36 @@
+{% extends 'template.html' %}
+
+{% block content %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-4">Witaj w systemie rezerwacji sal!</h1>
+            <div class="mt-3">
+                <a class="btn btn-success btn-lg" href="#"><i class="fa fa-search-plus"></i> wyszukaj salę</a>
+                <span class="mx-2">lub</span>
+                <a class="btn btn-primary btn-lg" href="{% url "sign_up" %}"><i class="fa fa-sign-in"></i> utwórz konto</a>
+            </div>
+        </div>
+    </div>
+    <div class="container home-wi">
+        <div class="row">
+            <div class="col-lg-4">
+                <h3>Wyszukiwanie sal</h3>
+                <hr />
+                <div class="home-wi-icon"><i class="fa fa-search"></i></div>
+                <p>Za pomocą wyszukiwarki znajdź odpowiednią dla siebie salę. System filtrów umożliwi Ci ograniczenie wyników według podanych parametrów.</p>
+            </div>
+            <div class="col-lg-4">
+                <h3>Interaktywny kalendarz</h3>
+                <hr />
+                <div class="home-wi-icon"><i class="fa fa-calendar"></i></div>
+                <p>Zobacz interaktywny kalendarz wyświetlający wszystkie zdarzenia oraz dostępność sali w wybranym dniu i tygodniu.</p>
+            </div>
+            <div class="col-lg-4">
+                <h3>Składanie rezerwacji</h3>
+                <hr />
+                <div class="home-wi-icon"><i class="fa fa-sticky-note"></i></div>
+                <p>Po utworzeniu konta i zalogowaniu się zyskujesz dostęp do składania próśb o rezerwację dowolnej sali w wybranym terminie.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

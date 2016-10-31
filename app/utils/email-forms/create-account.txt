@@ -1,0 +1,10 @@
+Dziękujemy za utworzenie konta w serwisie.
+
+Aby dokończyć proces rejestracji kliknij na poniższy link:
+URL_CONFIRMATION
+
+
+Jeśli procedura rejestracji w tym serwisie nie została rozpoczęta przez Ciebie, zignoruj tę wiadomość.
+
+--------------------------------------------------
+Wiadomość została wygenerowana automatycznie, prosimy na nią nie odpowiadać.

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="pl">
+<head>
+    <title>System rezerwacji sal</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{% static "bootstrap-4.0.0-alpha.5/css/bootstrap.min.css" %}"/>
+    <link rel="stylesheet" href="{% static "font-awesome-4.7.0/css/font-awesome.min.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/app.css" %}"/>
+    <script src="{% static "jquery/jquery-3.1.1.min.js" %}"></script>
+    <script src="{% static "bootstrap-4.0.0-alpha.5/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/app.js" %}"></script>
+</head>
+<body>
+
+<nav id="menu" class="navbar navbar-static-top navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url "home" %}">System rezerwacji sal</a>
+        <div id="menu_bars" class="hidden-lg-up">
+            <a href="#" data-toggle="collapse" data-target="#menu_navbar"><i class="fa fa-bars"></i></a>
+        </div>
+        <div class="collapse navbar-toggleable-md" id="menu_navbar">
+            <ul class="nav navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url "home" %}"><i class="fa fa-home"></i> Strona główna</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item"><a class="nav-link" href="{% url "sign_in" %}"><i class="fa fa-user"></i> zaloguj się</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url "sign_up" %}"><i class="fa fa-sign-in"></i> utwórz konto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+{% block content %}
+{% endblock %}
+
+<div class="container">
+    <hr />
+    <footer>
+        <p>&copy; 2016</p>
+    </footer>
+</div>
+
+</body>
+</html>

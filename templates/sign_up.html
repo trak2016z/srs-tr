@@ -1,0 +1,84 @@
+{% extends 'template.html' %}
+
+{% block content %}
+    <div id="content" class="container">
+        <h3>Tworzenie konta</h3>
+        <div class="row">
+            <div class="col-md-8">
+                {% if created %}
+                    <div class="alert alert-success">Konto zostało utworzone.</div>
+                    <div class="alert alert-info">
+                        W celu aktywacji konta odbierz wiadomość e-mail, która została wysłana na wskazany przez Ciebie adres w trakcie rejestracji.
+                    </div>
+                {% else %}
+                    <form action="{% url "sign_up" %}" method="post">
+                        {% csrf_token %}
+                        {% if errors %}
+                            <div class="alert alert-danger">
+                                {% for e in errors %}
+                                    <div>{{ e }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-group row">
+                            <label for="su_first_name" class="col-xs-4 col-form-label text-xs-right">Imię<span class="required">*</span>:</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" placeholder="imię" name="first_name" id="su_first_name" value="{{ first_name }}" maxlength="32" required="required" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="su_last_name" class="col-xs-4 col-form-label text-xs-right">Nazwisko<span class="required">*</span>:</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" placeholder="nazwisko" name="last_name" id="su_last_name" value="{{ last_name }}" maxlength="32" required="required" />
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group row">
+                            <label for="su_email" class="col-xs-4 col-form-label text-xs-right">Adres email<span class="required">*</span>:</label>
+                            <div class="col-xs-8">
+                                <input type="email" class="form-control" placeholder="adres email" name="email" id="su_email" maxlength="128" value="{{ email }}" required="required" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="su_password" class="col-xs-4 col-form-label text-xs-right">Hasło<span class="required">*</span>:</label>
+                            <div class="col-xs-8">
+                                <input type="password" class="form-control" placeholder="hasło" name="password" id="su_password" maxlength="32" required="required" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="su_password2" class="col-xs-4 col-form-label text-xs-right">Powtórz hasło<span class="required">*</span>:</label>
+                            <div class="col-xs-8">
+                                <input type="password" class="form-control" placeholder="powtórz hasło" name="password2" id="su_password2" maxlength="32" required="required" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-4 col-form-label text-xs-right">Kod:</label>
+                            <div class="col-xs-8">
+                                <img id="su_captcha_img" class="captcha" src="{{ captcha_url }}" alt="" />
+                                <a href="#" class="captcha_reload" data-target="#su_captcha_img" data-url="{{ captcha_url }}"><i class="fa fa-refresh"></i></a>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="su_captcha" class="col-xs-4 col-form-label text-xs-right">Przepisz kod<span class="required">*</span>:</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" placeholder="przepisz kod" name="captcha" id="su_captcha" maxlength="{{ captcha_max }}" required="required" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="offset-xs-4 col-xs-8">
+                                <input type="submit" name="create_account" class="btn btn-success btn-block" value="utwórz konto" />
+                            </div>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <div class="jumbotron text-xs-center">
+                    <div class="mb-2"><i class="fa fa-user fa-7x"></i></div>
+                    <div class="mb-2 lead">Posiadasz już konto?</div>
+                    <div><a href="{% url "sign_in" %}" class="btn btn-block btn-primary">zaloguj się</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

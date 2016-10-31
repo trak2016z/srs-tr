@@ -1,0 +1,54 @@
+{% extends 'template.html' %}
+
+{% block content %}
+    <div id="content" class="container">
+        <h3>Logowanie</h3>
+        <div class="row">
+            <div class="col-md-8">
+                <form action="{% url "sign_up" %}" method="post">
+                    {% if invalid %}
+                        <div class="alert alert-danger">Podany adres email lub hasło jest niepoprawne.</div>
+                    {% elif not_active %}
+                        <div class="alert alert-warning">Konto nie zostało jeszcze aktywowane.</div>
+                    {% elif activated %}
+                        <div class="alert alert-info">Konto zostało aktywowane. Możesz teraz się zalogować.</div>
+                    {% elif changed_password %}
+                        <div class="alert alert-info">Hasło zostało zmienione. Możesz teraz się zalogować.</div>
+                    {% endif %}
+                    <div class="form-group row">
+                        <label for="si_email" class="col-xs-4 col-form-label text-xs-right">Adres email<span
+                                class="required">*</span>:</label>
+                        <div class="col-xs-8">
+                            <input type="email" class="form-control" placeholder="adres email" name="email" id="si_email" maxlength="128" required="required" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="si_password" class="col-xs-4 col-form-label text-xs-right">Hasło<span
+                                class="required">*</span>:</label>
+                        <div class="col-xs-8">
+                            <input type="password" placeholder="hasło" class="form-control" name="password" id="si_password"
+                                   maxlength="32" required="required"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="offset-xs-4 col-xs-8">
+                            <input type="submit" name="log_in" class="btn btn-primary btn-block" value="zaloguj się"/>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-2">
+                        <div class="offset-xs-4 col-xs-8">
+                            <a href="{% url "forgotten_password" %}" class="btn btn-warning btn-block">zapomniałem(am) hasła</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <div class="jumbotron text-xs-center">
+                    <div class="mb-2"><i class="fa fa-sign-in fa-7x"></i></div>
+                    <div class="mb-2 lead">Nie posiadasz jeszcze konta?</div>
+                    <div><a href="{% url "sign_up" %}" class="btn btn-block btn-success">utwórz konto</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
