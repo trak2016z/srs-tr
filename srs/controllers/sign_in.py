@@ -14,9 +14,11 @@ def sign_in_cont(request):
     changed_password = request.session.get('changed_password', False)
     if changed_password:
         del request.session['changed_password']
+    redirect_p = ''
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
+        redirect_p = request.POST.get('redirect')
         invalid = True
         user = User.objects.filter(email=email).get()
         if user is not None:
@@ -27,12 +29,14 @@ def sign_in_cont(request):
                     user_auth = authenticate(username=email, password=password)
                     if user_auth is not None:
                         login(request, user_auth)
-                        return redirect('home')
+                        redirect_to = redirect_p if redirect_p else 'home'
+                        return redirect(redirect_to)
     return render(request, 'sign_in.html', {
         "invalid": invalid,
         "not_active": not_active,
         "activated": activated,
-        "changed_password": changed_password
+        "changed_password": changed_password,
+        "redirect": redirect_p or request.GET.get('next', '')
     })
 
 

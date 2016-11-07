@@ -109,6 +109,7 @@ DATABASES = DATABASES_HEROKU
 
 AUTH_USER_MODEL = 'app.User'
 
+LOGIN_URL = '/sign_in'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
