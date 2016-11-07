@@ -6,12 +6,13 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from app import settings
 from app.models import User, User_ConfirmationHash
+from app.settings import BASE_DIR
 from app.utils.captcha import Captcha
 from app.utils.hash import generate_unique_hash
 from app.utils.sender import send_email
-from srs import settings
-from srs.settings import BASE_DIR
+
 
 def sign_up_cont(request):
     created = request.session.get('created-account', False)
@@ -79,3 +80,13 @@ def sign_up_cont(request):
         'first_name': first_name,
         'last_name': last_name
     })
+
+
+def activate_account_cont(request, hash):
+    uch = User_ConfirmationHash.objects.filter(type='create-account', hash=hash).get()
+    if uch is not None:
+        uch.user.active = True
+        uch.user.save()
+        uch.delete()
+        request.session['activated-account'] = True
+    return redirect('sign_in')

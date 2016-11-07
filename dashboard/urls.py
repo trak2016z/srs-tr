@@ -14,8 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from dashboard.views import view
+from dashboard.controllers.index import index_cont
 
 urlpatterns = [
-    url(r'^$', view.index, name='dashboard.index'),
+    url(r'^$', index_cont, name='dashboard.index'),
 ]

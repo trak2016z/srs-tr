@@ -27,8 +27,20 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="nav-item"><a class="nav-link" href="{% url "sign_in" %}"><i class="fa fa-user"></i> zaloguj się</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url "sign_up" %}"><i class="fa fa-sign-in"></i> utwórz konto</a></li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url "account" %}"><i class="fa fa-user"></i>
+                        {{ user }}
+                    </a></li>
+                    {% if user.is_staff %}
+                        <li class="nav-item"><a class="nav-link" href="{% url "dashboard.index" %}"><i class="fa fa-dashboard"></i>
+                            Panel zarządzania
+                        </a></li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="{% url "sign_out" %}"><i class="fa fa-sign-out"></i> Wyloguj się</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url "sign_in" %}"><i class="fa fa-user"></i> zaloguj się</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url "sign_up" %}"><i class="fa fa-sign-in"></i> utwórz konto</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -40,7 +52,7 @@
 <div class="container">
     <hr />
     <footer>
-        <p>&copy; 2016</p>
+        <p><i class="fa fa-copyright"></i> 2016</p>
     </footer>
 </div>
 

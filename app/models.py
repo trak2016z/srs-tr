@@ -1,39 +1,53 @@
 from __future__ import unicode_literals
 
+from django.contrib.auth.hashers import BCryptSHA256PasswordHasher
+from django.contrib.auth.models import UserManager
 from django.db import models
 from django.utils import timezone
-
-from django.contrib.auth.hashers import BCryptSHA256PasswordHasher
-
-from srs import settings
 
 
 class User(models.Model):
 
-    REQUIRED_FIELDS = ('password', 'first_name', 'last_name',)
+    REQUIRED_FIELDS = ('password', 'first_name', 'last_name')
     USERNAME_FIELD = 'email'
 
     id = models.AutoField(primary_key=True)
     email = models.CharField(max_length=128, unique=True)
     password = models.CharField(max_length=128)
     created_date = models.DateTimeField(default=timezone.now)
+    last_login = models.DateTimeField(null=True)
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     role = models.IntegerField(default=0)
     active = models.BooleanField(default=False)
 
-    is_anonymous = True # TODO
-    is_authenticated = False # TODO
+    objects = UserManager()
 
     def set_password(self, password):
         alg = BCryptSHA256PasswordHasher()
         self.password = alg.encode(password, alg.salt())
 
-    def is_admin(self):
-        return self.role >= 1
+    def check_password(self, password):
+        alg = BCryptSHA256PasswordHasher()
+        return alg.verify(password, self.password)
+
+    @property
+    def is_anonymous(self):
+        return self.id is None
+
+    @property
+    def is_authenticated(self):
+        return self.id is not None
+
+    @property
+    def is_staff(self):
+        return self.is_authenticated and self.role >= 1
+
+    def full_name(self):
+        return self.first_name + ' ' + self.last_name if self.is_authenticated else None
 
     def __str__(self):
-        return self.first_name+' '+self.last_name
+        return self.full_name()
 
 
 class Room(models.Model):
@@ -47,6 +61,7 @@ class Room(models.Model):
 
     def __str__(self):
         return self.first_name+' '+self.last_name
+
 
 class Supervisor_Room(models.Model):
     id = models.AutoField(primary_key=True)

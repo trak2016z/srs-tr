@@ -27,8 +27,9 @@ SECRET_KEY = 'i-p2sa857-20cm1by3!dn#42%-cejxq-kz_8hkuag6e=o@1-e4'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    "*"
+]
 
 # Application definition
 
@@ -59,7 +60,9 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ TEMPLATE_DIR ],
+        'DIRS': [
+            TEMPLATE_DIR
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,7 +81,18 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
+DATABASES_HEROKU = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql', # django.db.backends.postgresql_psycopg2
+        'NAME': 'dd422lckkhknme',
+        'USER': 'mnjggxginbqxoc',
+        'PASSWORD': 'js5SdAjPDr4w28UFMTKgV7xeOw',
+        'HOST': 'ec2-54-75-232-46.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
+    }
+}
+
+DATABASES_LOCALHOST = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', # django.db.backends.postgresql_psycopg2
         'NAME': 'srs',
@@ -88,6 +102,8 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+DATABASES = DATABASES_HEROKU
 
 # Auth
 

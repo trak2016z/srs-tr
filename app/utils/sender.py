@@ -2,12 +2,12 @@
 import smtplib
 from email.mime.text import MIMEText
 
-from srs.settings import EMAIL_SMTP, SITE_TITLE
+from app.settings import EMAIL_SMTP, SITE_TITLE
 
 
 def send_email(to, subject, text):
     from_addr = EMAIL_SMTP['FROM_NAME']
-    to = 'lombek@gmail.com' # TODO change
+    # to = 'lombek@gmail.com'
     to_addrs = to if type(to) is list else [to]
 
     msg = MIMEText(text, "plain", "utf-8")

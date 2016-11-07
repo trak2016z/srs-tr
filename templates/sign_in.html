@@ -4,8 +4,9 @@
     <div id="content" class="container">
         <h3>Logowanie</h3>
         <div class="row">
-            <div class="col-md-8">
-                <form action="{% url "sign_up" %}" method="post">
+            <div class="col-lg-8">
+                <form action="{% url "sign_in" %}" method="post">
+                    {% csrf_token %}
                     {% if invalid %}
                         <div class="alert alert-danger">Podany adres email lub hasło jest niepoprawne.</div>
                     {% elif not_active %}
@@ -42,7 +43,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <div class="jumbotron text-xs-center">
                     <div class="mb-2"><i class="fa fa-sign-in fa-7x"></i></div>
                     <div class="mb-2 lead">Nie posiadasz jeszcze konta?</div>

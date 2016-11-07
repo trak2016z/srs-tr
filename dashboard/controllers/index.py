@@ -1,4 +1,4 @@
 from django.shortcuts import render
 
-def index(request):
+def index_cont(request):
     return render(request, 'dashboard/index.html')
