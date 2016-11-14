@@ -1,0 +1,30 @@
+{% extends 'dashboard/template_dashboard.html' %}
+
+{% block main %}
+    <div id="main">
+        <h3>Zarządzanie użytkownikami</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Adres email</th>
+                        <th>Imię i nazwisko</th>
+                        <th>Ostatnia wizyta</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in users %}
+                        <tr>
+                            <td>{{ u.email }}</td>
+                            <td>{{ u.first_name }} {{ u.last_name }}</td>
+                            <td><i class="fa fa-clock-o"></i>&nbsp; {{ u.last_login }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% include "widgets/pagination.html" %}
+    </div>
+{% endblock %}

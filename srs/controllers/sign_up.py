@@ -30,9 +30,9 @@ def sign_up_cont(request):
         elif len(first_name) < 3:
             errors.append('Za krótkie imie.')
         last_name = request.POST.get('last_name')
-        if len(first_name) == 0:
+        if len(last_name) == 0:
             errors.append('Nie podano nazwiska.')
-        elif len(first_name) < 3:
+        elif len(last_name) < 3:
             errors.append('Za krótkie nazwisko.')
         email = request.POST.get('email')
         if len(email) == 0:

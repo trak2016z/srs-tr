@@ -1,0 +1,53 @@
+{% extends 'account/template_account.html' %}
+
+{% block main %}
+    <div id="main">
+        <h3>Konto użytkownika &raquo;
+            <small>zmiana danych</small>
+        </h3>
+        <form action="{% url "account.change" %}" method="post">
+            {% csrf_token %}
+            {% if update_errors %}
+                <div class="alert alert-danger">
+                    {% for e in update_errors %}
+                        <div>{{ e }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if update_success %}
+                <div class="alert alert-success">Zapisano zmiany.</div>
+            {% endif %}
+            <div class="form-group row">
+                <label for="cd_first_name" class="col-xs-4 col-form-label text-xs-right">Adres email<span
+                        class="required">*</span>:</label>
+                <div class="col-xs-6 form-control-static">
+                    {{ user.email }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="cd_first_name" class="col-xs-4 col-form-label text-xs-right">Imię<span
+                        class="required">*</span>:</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" placeholder="imię" name="first_name"
+                           id="cd_first_name" value="{{ first_name }}" maxlength="32"
+                           required="required"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="cd_last_name" class="col-xs-4 col-form-label text-xs-right">Nazwisko<span
+                        class="required">*</span>:</label>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" placeholder="nazwisko" name="last_name"
+                           id="cd_last_name" value="{{ last_name }}" maxlength="32"
+                           required="required"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="offset-xs-4 col-xs-6">
+                    <input type="submit" name="update" class="btn btn-success btn-block"
+                           value="zapisz zmiany"/>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

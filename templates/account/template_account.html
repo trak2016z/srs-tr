@@ -1,0 +1,37 @@
+{% extends '../template.html' %}
+
+{% block content %}
+
+    <div id="content" class="container">
+
+        <div class="row">
+            <div class="col-sm-9">
+                {% block main %}
+                {% endblock %}
+            </div>
+            <div class="col-sm-3">
+                <div id="sidebar">
+                    <div class="card card-inverse bg-primary">
+                        <div class="p-1">
+                            <div class="float-xs-right"><i class="fa fa-user" style="color: #fff;"></i></div>
+                            <span class="card-title">Konto użytkownika</span>
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item"><i class="fa fa-chevron-right"></i> <a href="{% url "account.change" %}">zmiana danych</a></li>
+                        <li class="list-group-item"><i class="fa fa-chevron-right"></i> <a href="{% url "account.change_password" %}">zmiana hasła</a></li>
+                        <li class="list-group-item"><i class="fa fa-chevron-right"></i> <a href="{% url "sign_out" %}">wyloguj się</a></li>
+                    </ul>
+                    {% if user.is_staff %}
+                        <a href="{% url "dashboard.index" %}" class="card bg-danger anchor-card-inverse mt-1 p-1">
+                            <div class="float-xs-right"><i class="fa fa-dashboard"></i></div>
+                            Zarządzanie systemem
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

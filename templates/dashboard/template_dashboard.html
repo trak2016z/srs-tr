@@ -1,0 +1,30 @@
+{% extends '../template.html' %}
+
+{% block content %}
+
+    <div id="content" class="container">
+
+        <div class="row">
+            <div class="col-sm-9">
+                {% block main %}
+                {% endblock %}
+            </div>
+            <div class="col-sm-3">
+                <div id="sidebar">
+                    <div class="card card-inverse bg-primary">
+                        <div class="p-1">
+                            <div class="float-xs-right"><i class="fa fa-dashboard" style="color: #fff;"></i></div>
+                            <span class="card-title">Zarządzanie systemem</span>
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item"><i class="fa fa-chevron-right"></i> <a href="{% url "dashboard.index" %}">strona główna</a></li>
+                        <li class="list-group-item"><i class="fa fa-chevron-right"></i> <a href="{% url "dashboard.users" %}">użytkownicy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

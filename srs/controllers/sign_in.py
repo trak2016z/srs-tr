@@ -15,6 +15,7 @@ def sign_in_cont(request):
     if changed_password:
         del request.session['changed_password']
     redirect_p = ''
+    next = request.GET.get('next', '')
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -36,7 +37,8 @@ def sign_in_cont(request):
         "not_active": not_active,
         "activated": activated,
         "changed_password": changed_password,
-        "redirect": redirect_p or request.GET.get('next', '')
+        "next": next,
+        "redirect": redirect_p or next
     })
 
 

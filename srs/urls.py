@@ -35,7 +35,8 @@ urlpatterns = [
     url(r'^sign_in', sign_in_cont, name='sign_in'),
     url(r'^sign_out', sign_out_cont, name='sign_out'),
 
-    url(r'^account', account.index, name='account'),
+    url(r'^account/change_password', account.change_password, name='account.change_password'),
+    url(r'^account/change', account.change, name='account.change'),
 
     url(r'^dashboard/', include('dashboard.urls')),
     # url(r'^admin/', admin.site.urls),

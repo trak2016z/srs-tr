@@ -7,6 +7,12 @@
             <div class="col-lg-8">
                 <form action="{% url "sign_in" %}" method="post">
                     {% csrf_token %}
+                    {% if next %}
+                        <div class="anchor-card-inverse bg-danger p-1 mb-1">
+                            <div class="float-xs-left mr-1"><i class="fa fa-ban"></i></div>
+                            Dostęp do tej strony wymaga zalogowania się.
+                        </div>
+                    {% endif %}
                     {% if invalid %}
                         <div class="alert alert-danger">Podany adres email lub hasło jest niepoprawne.</div>
                     {% elif not_active %}

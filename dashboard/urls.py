@@ -14,8 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from dashboard.controllers.index import index_cont
+
+from dashboard.controllers import index
+from dashboard.controllers import users
 
 urlpatterns = [
-    url(r'^$', index_cont, name='dashboard.index'),
+    url(r'^users$', users.index_cont, name='dashboard.users'),
+    url(r'^users/page,(?P<page>[0-9]+)$', users.index_cont, name='dashboard.users.page'),
+    url(r'^$', index.index_cont, name='dashboard.index'),
 ]

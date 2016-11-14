@@ -20,8 +20,8 @@ def show_image(request, name):
     if hash is None:
         raise Http404("Captcha does not exist.")
     response = HttpResponse(content_type="image/png")
-    font_dir = os.path.join(BASE_DIR, "app", "fonts", "Cookie.ttf")
-    font = ImageFont.truetype(font_dir, size=22, encoding="unic")
+    font_dir = os.path.join(BASE_DIR, "app", "fonts", "Dink.ttf")
+    font = ImageFont.truetype(font_dir, size=28, encoding="unic")
     im = Image.new("RGB", (30+CAPTCHA_LENGTH*25, 40), "#eceeef")
     width = im.size[0]
     height = im.size[1]
@@ -34,10 +34,10 @@ def show_image(request, name):
         draw.line((x, 0, x, height), fill="#aaaaaa")
     x = 15
     for c in hash:
-        rx = random.randint(0, 10)
-        ry = random.randint(5, 15)
+        rx = random.randint(1, 6)
+        ry = random.randint(0, 10)
         draw.text((x+rx, ry), c, font=font, fill="#000000")
-        x += 25
+        x += 26
     im.save(response, "PNG")
     return response
 
