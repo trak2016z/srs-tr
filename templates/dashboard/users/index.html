@@ -10,7 +10,6 @@
                         <th>Adres email</th>
                         <th>Imię i nazwisko</th>
                         <th>Ostatnia wizyta</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -19,7 +18,6 @@
                             <td>{{ u.email }}</td>
                             <td>{{ u.first_name }} {{ u.last_name }}</td>
                             <td><i class="fa fa-clock-o"></i>&nbsp; {{ u.last_login }}</td>
-                            <td></td>
                         </tr>
                     {% endfor %}
                 </tbody>

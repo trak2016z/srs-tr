@@ -1,0 +1,54 @@
+{% extends 'dashboard/template_dashboard.html' %}
+
+{% block main %}
+    <div id="main">
+        <div class="bookmark">
+            <a href="{% url "dashboard.rooms.edit" id=room.id %}" class="btn btn-primary btn-sm">edytuj tę salę</a>
+            <a href="{% url "dashboard.rooms" %}" class="btn btn-primary btn-sm">powrót</a>
+        </div>
+        <h3>Sala {{ room.name }}<small> &raquo; opiekunowie</small></h3>
+        {% if message %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endif %}
+        <div class="text-xs-center my-1"><a href="#" data-toggle="collapse" data-target="#supervisor_add_form" class="btn btn-success btn-sm">dodaj nowego opiekuna</a></div>
+        <div id="supervisor_add_form" class="collapse">
+            {% if users_canAdd|length > 0 %}
+                <form action="{% url "dashboard.rooms.supervisors" id=room.id %}" method="post" class="my-2 form-inline text-xs-center">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <select name="uid" class="form-control">
+                            {% for u in users_canAdd %}
+                                <option value="{{ u.id }}">{{ u.first_name }} {{ u.last_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <input type="submit" class="btn btn-primary" name="add" value="dodaj" />
+                </form>
+            {% else %}
+                <div class="alert alert-info">Nie ma kogo dodawać.</div>
+            {% endif %}
+        </div>
+        {% if supervisors|length > 0 %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-xs-center">Użytkownik</th>
+                        <th class="text-xs-center">Opcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for u in supervisors %}
+                    <tr>
+                        <td>{{ u.user.first_name }} {{ u.user.last_name }}</td>
+                        <td class="text-xs-center"><a href="{% url "dashboard.rooms.supervisors.delete" id=room.id uid=u.user.id %}" class="btn btn-danger btn-sm" data-toggle="confirm" title="Czy na pewno chcesz odebrać prawa opiekuna sali użytkownikowi {{ u.user.first_name }} {{ u.user.last_name }}?">usuń</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">Ta sala nie ma przypisanych żadnych opiekunów.</div>
+        {% endif %}
+    </div>
+{% endblock %}

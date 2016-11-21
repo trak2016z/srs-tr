@@ -24,6 +24,32 @@ body {
   color: #fff;
   text-decoration: none;
 }
+.tile-box {
+  display: block;
+  color: #fff;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+}
+.tile-box:hover,
+.tile-box:focus {
+  text-decoration: none;
+  color: #fff;
+  opacity: 0.8;
+}
+.tile-box .tile-header {
+  padding: 10px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.2);
+}
+.tile-box .tile-content {
+  padding: 20px 10px;
+  text-align: center;
+}
+.tile-box .tile-content span {
+  font-size: 25px;
+  font-weight: bold;
+}
 #menu {
   background-color: #2d3e50;
   border-radius: 0;
@@ -96,4 +122,14 @@ body {
   font-size: 50px;
   text-align: center;
   margin: 15px 0;
+}
+.modal-footer button {
+  margin: 0 5px;
+}
+.bookmark {
+  float: right;
+  margin: 5px 0 0 0;
+}
+.bookmark a + a {
+  margin-left: 10px;
 }

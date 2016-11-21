@@ -25,7 +25,7 @@ SECRET_KEY = 'i-p2sa857-20cm1by3!dn#42%-cejxq-kz_8hkuag6e=o@1-e4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "*"
@@ -103,7 +103,7 @@ DATABASES_LOCALHOST = {
     }
 }
 
-DATABASES = DATABASES_LOCALHOST
+DATABASES = DATABASES_HEROKU
 
 # Auth
 

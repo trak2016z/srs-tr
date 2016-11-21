@@ -1,7 +1,41 @@
-{% extends 'dashboard/template_dashboard.html' %}
+{% extends 'template.html' %}
 
-{% block main %}
-    <div id="main">
+{% block content %}
+    <div id="content" class="container">
         <h3>Zarządzanie systemem</h3>
+        <div class="row">
+            <div class="col-md-3">
+                <a href="{% url "dashboard.rooms" %}" class="tile-box btn-primary">
+                    <div class="tile-header">Sale</div>
+                    <div class="tile-content">
+                        <span>{{ rooms_count }}</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="{% url "dashboard.users" %}" class="tile-box btn-success">
+                    <div class="tile-header">Użytkownicy</div>
+                    <div class="tile-content">
+                        <span>{{ users_count }}</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="#" class="tile-box btn-warning">
+                    <div class="tile-header"></div>
+                    <div class="tile-content">
+                        <span></span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="#" class="tile-box btn-danger">
+                    <div class="tile-header"></div>
+                    <div class="tile-content">
+                        <span></span>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
 {% endblock %}

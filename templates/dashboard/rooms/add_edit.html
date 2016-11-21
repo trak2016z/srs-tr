@@ -1,0 +1,83 @@
+{% extends 'dashboard/template_dashboard.html' %}
+
+{% block main %}
+    <div id="main">
+        <div class="bookmark">
+            {% if room.id %}
+                <a href="{% url "dashboard.rooms.supervisors" id=room.id %}" class="btn btn-primary btn-sm">zmień opiekunów</a>
+            {% endif %}
+            <a href="{% url "dashboard.rooms" %}" class="btn btn-primary btn-sm">powrót</a>
+        </div>
+        <h3>Zarządzanie salami
+            <small> &raquo; {{ mode }}</small>
+        </h3>
+        <form action="{{ url }}" method="post">
+            {% csrf_token %}
+            {% if message %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endif %}
+            {% if errors %}
+                <div class="alert alert-danger">
+                    {% for e in errors %}
+                        <div>{{ e }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="form-group row">
+                <label for="rae_name" class="col-xs-4 col-form-label text-xs-right">Nazwa<span
+                        class="required">*</span>:</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" placeholder="nazwa" name="name" id="rae_name"
+                           maxlength="64" value="{{ room.name }}" required="required"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="rae_city" class="col-xs-4 col-form-label text-xs-right">Miasto<span
+                        class="required">*</span>:</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" placeholder="miasto" name="city" id="rae_city"
+                           maxlength="64" value="{{ room.city }}" required="required"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="rae_address" class="col-xs-4 col-form-label text-xs-right">Adres:</label>
+                <div class="col-xs-8">
+                    <textarea class="form-control" placeholder="adres" name="address" rows="2"
+                              id="rae_address">{{ room.address|default:"" }}</textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="rae_description" class="col-xs-4 col-form-label text-xs-right">Opis:</label>
+                <div class="col-xs-8">
+                    <textarea class="form-control" placeholder="opis" name="description" rows="3"
+                              id="rae_description">{{ room.description|default:"" }}</textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="rae_seats_number" class="col-xs-4 col-form-label text-xs-right">Liczba miejsc:</label>
+                <div class="col-xs-8">
+                    <input class="form-control" placeholder="liczba miejsc" name="seats_number" id="rae_seats_number"
+                           value="{{ room.seats_number|default:"" }}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="offset-xs-4 col-xs-8">
+                    <label class="custom-control custom-checkbox">
+                        {% if room.auto_accepted %}
+                            <input type="checkbox" name="auto_accepted" class="custom-control-input" checked="checked"/>
+                        {% else %}
+                            <input type="checkbox" name="auto_accepted" class="custom-control-input"/>
+                        {% endif %}
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Automatyczna akceptacja rezerwacji sali</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="offset-xs-4 col-xs-8">
+                    <input type="submit" name="save" class="btn btn-success" value="{{ mode2 }}"/>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

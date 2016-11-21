@@ -3,7 +3,6 @@
 {% block content %}
 
     <div id="content" class="container">
-
         <div class="row">
             <div class="col-sm-9">
                 {% block main %}
@@ -25,13 +24,12 @@
                     {% if user.is_staff %}
                         <a href="{% url "dashboard.index" %}" class="card bg-danger anchor-card-inverse mt-1 p-1">
                             <div class="float-xs-right"><i class="fa fa-dashboard"></i></div>
-                            Zarządzanie systemem
+                            <i class="fa fa-link"></i>&nbsp; Zarządzanie systemem
                         </a>
                     {% endif %}
                 </div>
             </div>
         </div>
-
     </div>
 
 {% endblock %}

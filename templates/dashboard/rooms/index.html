@@ -1,0 +1,50 @@
+{% extends 'dashboard/template_dashboard.html' %}
+
+{% block main %}
+    <div id="main">
+        <div class="bookmark"><a href="{% url "dashboard.rooms.add" %}" class="btn btn-success btn-sm">dodaj nową salę</a></div>
+        <h3>Zarządzanie salami</h3>
+        {% if message %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endif %}
+        {% if rooms.count > 0 %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-xs-center">Nazwa</th>
+                        <th class="text-xs-center">Lokalizacja</th>
+                        <th class="text-xs-center">Liczba miejsc</th>
+                        <th></th>
+                        <th class="text-xs-center" colspan="3">Opcje</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for r in rooms %}
+                        <tr>
+                            <td>{{ r.name }}</td>
+                            <td>{{ r.place }}</td>
+                            <td class="text-xs-center">{{ r.seats_number|default:"" }}</td>
+                            <td>
+                                {% if r.auto_accepted %}
+                                    <i class="fa fa-plus-square text-success" title="Propozycje są automatycznie akceptowane."></i>
+                                {% else %}
+                                    <i class="fa fa-minus-square text-danger" title="Propozycje nie są automatycznie akceptowane."></i>
+                                {% endif %}
+                            </td>
+                            <td class="text-xs-center">
+                                <a class="btn btn-primary btn-sm" href="{% url "dashboard.rooms.supervisors" id=r.id %}">opiekunowie ({{ r.supervisiors_count }})</a>
+                            </td>
+                            <td class="text-xs-center"><a href="{% url "dashboard.rooms.edit" id=r.id %}" class="btn btn-warning btn-sm">edytuj</a></td>
+                            <td class="text-xs-center"><a href="{% url "dashboard.rooms.delete" id=r.id %}" data-toggle="confirm" title="Czy na pewno chcesz usunąć salę {{ r.name }}?!" class="btn btn-danger btn-sm">usuń</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">brak sal</div>
+        {% endif %}
+        {% include "widgets/pagination.html" %}
+    </div>
+{% endblock %}

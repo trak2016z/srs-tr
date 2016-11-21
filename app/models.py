@@ -60,7 +60,16 @@ class Room(models.Model):
     auto_accepted = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.first_name+' '+self.last_name
+        return self.name
+
+    def place(self):
+        return self.city + (', '+self.address if self.address else '')
+
+    def supervisiors(self):
+        return Supervisor_Room.objects.filter(room=self)
+
+    def supervisiors_count(self):
+        return Supervisor_Room.objects.filter(room=self).count()
 
 
 class Supervisor_Room(models.Model):
@@ -69,7 +78,7 @@ class Supervisor_Room(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'user='+str(self.user)+', room'+str(self.room)
+        return 'user='+str(self.user)+', room='+str(self.room)
 
     class Meta:
         unique_together = ('user', 'room')

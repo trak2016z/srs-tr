@@ -6,3 +6,4 @@ pil==1.1.7
 pillow==3.1.1
 importlib==1.0.4
 bcrypt==3.1.1
+dj-static==0.0.6

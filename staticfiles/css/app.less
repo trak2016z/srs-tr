@@ -15,6 +15,32 @@ body {
     text-decoration: none;
 }
 
+.tile-box {
+    display: block;
+    color: #fff;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    &:hover, &:focus {
+        text-decoration: none;
+        color: #fff;
+        opacity: 0.8;
+    }
+    .tile-header {
+        padding: 10px;
+        text-align: center;
+        background: rgba(255,255,255,0.2);
+    }
+    .tile-content {
+        padding: 20px 10px;
+        text-align: center;
+        span {
+            font-size: 25px;
+            font-weight: bold;
+        }
+    }
+}
+
 #menu {
     background-color: #2d3e50;
     border-radius: 0;
@@ -95,5 +121,17 @@ body {
         font-size: 50px;
         text-align: center;
         margin: 15px 0;
+    }
+}
+
+.modal-footer button {
+    margin: 0 5px;
+}
+
+.bookmark {
+    float: right;
+    margin: 5px 0 0 0;
+    a + a {
+        margin-left: 10px;
     }
 }

@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.conf.urls.static import static
+from django.shortcuts import render_to_response, render
+from django.template import RequestContext
 
 from app import settings
 from app.utils import captcha
@@ -41,3 +43,7 @@ urlpatterns = [
     url(r'^dashboard/', include('dashboard.urls')),
     # url(r'^admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+def handler404(request):
+    return render(request, 'errors/404.html')
