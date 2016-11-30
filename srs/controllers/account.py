@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.db.models import Count
+from django.http import Http404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 
-from app.models import User
+from app.models import User, Reservation, Room
+import app.consts
+from app.utils.pagination import Pagination
 
 
 @login_required
@@ -68,3 +73,52 @@ def change_password(request):
         "cp_errors": cp_errors,
         "cp_success": cp_success
     })
+
+
+@login_required
+def reservations(request):
+    res = Reservation.objects.filter(user=request.user).exclude(status=app.consts.RESERVATION_STATUS_CANCELLED).order_by('date_from')
+    rooms = []
+    if len(res) > 0:
+        for r in res:
+            if r.room not in rooms:
+                rooms.append(r.room)
+    for r in rooms:
+        r.accepted = Reservation.objects.filter(room=r, user=request.user, status=app.consts.RESERVATION_STATUS_ACCEPTED, date_to__gt=timezone.now()).order_by('date_from')[:3]
+        r.waiting = Reservation.objects.filter(room=r, user=request.user, status=app.consts.RESERVATION_STATUS_WAITING).order_by('date_from')[:3]
+    return render(request, 'account/reservations.html', {
+        'rooms': rooms
+    })
+
+
+@login_required
+def reservations_room(request, room_id, page=1):
+    room = get_object_or_404(Room, pk=room_id)
+    message = request.session.get('message', False)
+    if message:
+        del request.session['message']
+    pagination = Pagination()
+    pagination.url = "account.reservations.room.page"
+    pagination.args = {'room_id': room_id}
+    pagination.page = int(page)
+    pagination.perPage = 20
+    pagination.count = Reservation.objects.filter(user=request.user).count()
+    history = Reservation.objects.filter(user=request.user).order_by('-request_date')[pagination.ifrom:pagination.ito]
+    return render(request, 'account/reservations_room.html', {
+        'room': room,
+        'history': history,
+        'pagination': pagination,
+        'message': message
+    })
+
+
+@login_required
+def reservations_room_delete(request, room_id, id):
+    room = get_object_or_404(Room, pk=room_id)
+    reservation = get_object_or_404(Reservation, pk=id)
+    if reservation.user != request.user or reservation.is_cancelled or reservation.is_rejected:
+        raise Http404
+    reservation.status = app.consts.RESERVATION_STATUS_CANCELLED
+    reservation.save()
+    request.session['message'] = 'Wybrana rezerwacja została wycofana.'
+    return redirect('account.reservations.room', room_id=room_id)

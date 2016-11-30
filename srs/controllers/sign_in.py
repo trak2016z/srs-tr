@@ -21,8 +21,8 @@ def sign_in_cont(request):
         password = request.POST.get('password')
         redirect_p = request.POST.get('redirect')
         invalid = True
-        user = User.objects.filter(email=email).get()
-        if user is not None:
+        try:
+            user = User.objects.filter(email=email).get()
             if user.check_password(password):
                 invalid = False
                 not_active = True
@@ -32,6 +32,8 @@ def sign_in_cont(request):
                         login(request, user_auth)
                         redirect_to = redirect_p if redirect_p else 'home'
                         return redirect(redirect_to)
+        except User.DoesNotExist:
+            pass
     return render(request, 'sign_in.html', {
         "invalid": invalid,
         "not_active": not_active,

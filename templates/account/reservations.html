@@ -1,0 +1,41 @@
+{% extends 'account/template_account.html' %}
+
+{% block main %}
+    <div id="main">
+        <h3>Moje rezerwacje</h3>
+        <div class="row">
+        {% for r in rooms %}
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-block card-inverse card-primary">
+                        <h4 class="card-title">Sala {{ r.name }}</h4>
+                        <p class="card-text">{{ r.city }}
+                        {% if r.address %}
+                            <br />{{ r.address }}
+                        {% endif %}</p>
+                    </div>
+                    {% if r.accepted %}
+                        {% for i in r.accepted %}
+                            <div class="pt-1 px-1">
+                                <p>Termin: <strong>{{ i.date_from_format }}</strong> - <strong>{{ i.date_to_format }}</strong></p>
+                                <p class="text-success"><i class="fa fa-check-circle"></i> Rezerwacja potwierdzona. Zapraszamy.</p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% if r.waiting %}
+                        {% for i in r.waiting %}
+                            <div class="pt-1 px-1">
+                                <p>Termin: <strong>{{ i.date_from_format }}</strong> - <strong>{{ i.date_to_format }}</strong></p>
+                                <p class="text-primary"><i class="fa fa-question-circle"></i> Prośba oczekuje na potwierdzenie. Prosimy o cierpliwość.</p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="card-footer text-muted">
+                        <i class="fa fa-info-circle"></i> <a href="{% url "account.reservations.room" room_id=r.id %}">zobacz całą historie</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}

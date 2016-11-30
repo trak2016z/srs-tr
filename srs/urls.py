@@ -40,10 +40,21 @@ urlpatterns = [
     url(r'^account/change_password', account.change_password, name='account.change_password'),
     url(r'^account/change', account.change, name='account.change'),
 
+    url(r'^account/reservations/delete/room,(?P<room_id>[0-9]+)/id,(?P<id>[0-9]+)', account.reservations_room_delete, name='account.reservations.room.delete'),
+    url(r'^account/reservations/room,(?P<room_id>[0-9]+)/page,(?P<page>[0-9]+)', account.reservations_room, name='account.reservations.room.page'),
+    url(r'^account/reservations/room,(?P<room_id>[0-9]+)', account.reservations_room, name='account.reservations.room'),
+    url(r'^account/reservations', account.reservations, name='account.reservations'),
+
     url(r'^dashboard/', include('dashboard.urls')),
     # url(r'^admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
+def handler403(request):
+    return render(request, 'errors/403.html')
+
+
 def handler404(request):
     return render(request, 'errors/404.html')
+
+

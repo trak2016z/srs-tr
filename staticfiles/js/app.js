@@ -1,3 +1,5 @@
+bootbox.setLocale('pl');
+
 $(document).ready(function() {
 
     $('.captcha_reload').click(function() {

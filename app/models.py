@@ -5,6 +5,9 @@ from django.contrib.auth.models import UserManager
 from django.db import models
 from django.utils import timezone
 
+import app.consts
+from app.utils.date import date_format_short
+
 
 class User(models.Model):
 
@@ -49,6 +52,10 @@ class User(models.Model):
     def __str__(self):
         return self.full_name()
 
+    @property
+    def is_any_supervisor(self):
+        return Supervisor_Room.objects.filter(user=self).count() > 0
+
 
 class Room(models.Model):
     id = models.AutoField(primary_key=True)
@@ -71,6 +78,9 @@ class Room(models.Model):
     def supervisiors_count(self):
         return Supervisor_Room.objects.filter(room=self).count()
 
+    def is_supervisor(self, user):
+        return Supervisor_Room.objects.filter(room=self, user=user).count() > 0
+
 
 class Supervisor_Room(models.Model):
     id = models.AutoField(primary_key=True)
@@ -92,3 +102,40 @@ class User_ConfirmationHash(models.Model):
 
     class Meta:
         unique_together = ('type', 'hash')
+
+
+class Reservation(models.Model):
+    id = models.AutoField(primary_key=True)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    date_from = models.DateTimeField()
+    date_to = models.DateTimeField()
+    request_date = models.DateTimeField(default=timezone.now)
+    status = models.CharField(default='0', max_length=1)
+    considered_date = models.DateTimeField(null=True)
+    considered_user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='considered')
+
+    @property
+    def is_accepted(self):
+        return self.status == app.consts.RESERVATION_STATUS_ACCEPTED
+
+    @property
+    def is_rejected(self):
+        return self.status == app.consts.RESERVATION_STATUS_REJECTED
+
+    @property
+    def is_waiting(self):
+        return self.status == app.consts.RESERVATION_STATUS_WAITING
+
+    @property
+    def is_cancelled(self):
+        return self.status == app.consts.RESERVATION_STATUS_CANCELLED
+
+    @property
+    def date_from_format(self):
+        return date_format_short(self.date_from)
+
+    @property
+    def date_to_format(self):
+        return date_format_short(self.date_to)
+

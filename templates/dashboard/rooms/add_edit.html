@@ -3,10 +3,14 @@
 {% block main %}
     <div id="main">
         <div class="bookmark">
-            {% if room.id %}
+            {% if room.id and user.is_staff %}
                 <a href="{% url "dashboard.rooms.supervisors" id=room.id %}" class="btn btn-primary btn-sm">zmień opiekunów</a>
             {% endif %}
-            <a href="{% url "dashboard.rooms" %}" class="btn btn-primary btn-sm">powrót</a>
+            {% if user.is_staff %}
+                <a href="{% url "dashboard.rooms" %}" class="btn btn-primary btn-sm">powrót</a>
+            {% else %}
+                <a href="{% url "dashboard.guard.rooms" %}" class="btn btn-primary btn-sm">powrót</a>
+            {% endif %}
         </div>
         <h3>Zarządzanie salami
             <small> &raquo; {{ mode }}</small>

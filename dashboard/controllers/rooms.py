@@ -3,7 +3,7 @@ import re
 from django.shortcuts import render, redirect, get_object_or_404
 
 from app.models import User, Room, Supervisor_Room
-from app.utils.decorator import admin_required
+from app.utils.decorator import admin_required, supervisor_required, supervisor_room_required
 from app.utils.pagination import Pagination
 
 
@@ -25,7 +25,7 @@ def index_cont(request, page=1):
     })
 
 
-@admin_required
+@supervisor_room_required
 def add_edit_cont(request, id=None):
     room = Room()
     if id is not None:
@@ -84,7 +84,7 @@ def supervisors_cont(request, id):
     room = get_object_or_404(Room, pk=id)
     supervisors = Supervisor_Room.objects.filter(room=room).order_by('user__last_name').order_by('user__first_name')
     users_canAdd = []
-    users_v = User.objects.filter(role=0).order_by('last_name').order_by('first_name')
+    users_v = User.objects.filter().order_by('last_name').order_by('first_name')
     for u in users_v:
         if Supervisor_Room.objects.filter(room=room, user=u).count() == 0:
             users_canAdd.append(u)

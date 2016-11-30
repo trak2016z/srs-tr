@@ -35,13 +35,18 @@
                             {{ user }}
                         </a>
                         <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url "account.reservations" %}">moje rezerwacje</a>
                             <a class="dropdown-item" href="{% url "account.change" %}">zmiana danych</a>
                             <a class="dropdown-item" href="{% url "account.change_password" %}">zmiana hasła</a>
                         </div>
                     </li>
                     {% if user.is_staff %}
                         <li class="nav-item"><a class="nav-link" href="{% url "dashboard.index" %}"><i class="fa fa-dashboard"></i>
-                            panel zarządzania
+                            zarządzanie systemem
+                        </a></li>
+                    {% elif user.is_any_supervisor %}
+                        <li class="nav-item"><a class="nav-link" href="{% url "dashboard.guard" %}"><i class="fa fa-dashboard"></i>
+                            panel opiekuna
                         </a></li>
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{% url "sign_out" %}"><i class="fa fa-sign-out"></i> wyloguj się</a></li>

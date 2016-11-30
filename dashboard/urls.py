@@ -1,22 +1,8 @@
-"""srs URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.10/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
 from django.conf.urls import url
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
+from dashboard.controllers import guard
 from dashboard.controllers import index
 from dashboard.controllers import rooms
 from dashboard.controllers import users
@@ -31,5 +17,8 @@ urlpatterns = [
     url(r'^rooms', rooms.index_cont, name='dashboard.rooms'),
     url(r'^users$', users.index_cont, name='dashboard.users'),
     url(r'^users/page,(?P<page>[0-9]+)$', users.index_cont, name='dashboard.users.page'),
+    url(r'^guard/rooms/page,(?P<page>[0-9]+)$', guard.rooms_cont, name='dashboard.guard.rooms.page'),
+    url(r'^guard/rooms$', guard.rooms_cont, name='dashboard.guard.rooms'),
+    url(r'^guard$', guard.index_cont, name='dashboard.guard'),
     url(r'^$', index.index_cont, name='dashboard.index'),
 ]

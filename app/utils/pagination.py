@@ -1,3 +1,6 @@
+from django.template.loader_tags import register
+
+
 class Pagination():
 
     page = 1
@@ -26,3 +29,6 @@ class Pagination():
 
     def range(self):
         return range(1, self.pages_count+1)
+
+    def __str__(self):
+        return "Page "+str(self.page)+" of "+str(self.pages_count)

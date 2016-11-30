@@ -1,9 +1,10 @@
+{% load pag_extra %}
 {% if pagination.pages_count > 1 %}
     <nav class="text-xs-center">
         <ul class="pagination">
             {% if pagination.page > 1 %}
                 <li class="page-item">
-                    <a class="page-link" href="{% url pagination.url page=pagination.page_prev %}">
+                    <a class="page-link" href="{% pag_extra pagination pagination.page_prev %}">
                         <span>&laquo;</span>
                     </a>
                 </li>
@@ -14,12 +15,12 @@
                         {% else %}
                     <li class="page-item">
                 {% endif %}
-            <a class="page-link" href="{% url pagination.url page=p %}">{{ p }}</a>
+            <a class="page-link" href="{% pag_extra pagination p %}">{{ p }}</a>
             </li>
             {% endfor %}
             {% if pagination.page < pagination.pages_count %}
                 <li class="page-item">
-                    <a class="page-link" href="{% url pagination.url page=pagination.page_next %}">
+                    <a class="page-link" href="{% pag_extra pagination pagination.page_next %}">
                         <span>&raquo;</span>
                     </a>
                 </li>
