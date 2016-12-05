@@ -106,6 +106,9 @@ body {
         font-size: 18px;
         margin: 0 0 15px 0;
     }
+    @media all and (max-width: 767px) {
+        margin-top: 25px;
+    }
 }
 
 .home-wi {
@@ -133,5 +136,50 @@ body {
     margin: 5px 0 0 0;
     a + a {
         margin-left: 10px;
+    }
+}
+
+.calendarium {
+    h4 {
+        margin-bottom: 30px;
+        font-size: 20px;
+    }
+    th {
+        text-align: center;
+        background: #006DCC linear-gradient(to bottom, #08C, #04C);
+        color: #fff;
+        text-transform: uppercase;
+        border-color: rgba(0, 0, 0, 0.1);
+        border-top-width: 0;
+        border-bottom-width: 0;
+        width: 14.28%;
+    }
+    td {
+        a {
+            color: #000;
+            display: block;
+            height: 100px;
+        }
+        border-color: #e1e1e1;
+        &.empty {
+            background: #ededed;
+        }
+        &.active {
+            background: #faf2cc;
+        }
+        .title {
+            font-size: 15px;
+            font-weight: bold;
+            span {
+                background: #eeeeee;
+                border-radius: 5px;
+                border: 1px solid #CCC;
+                padding: 5px 10px;
+                display: inline-block;
+            }
+        }
+        div + div {
+            margin-top: 5px;
+        }
     }
 }

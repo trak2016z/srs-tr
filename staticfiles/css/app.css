@@ -110,6 +110,11 @@ body {
   font-size: 18px;
   margin: 0 0 15px 0;
 }
+@media all and (max-width: 767px) {
+  #sidebar {
+    margin-top: 25px;
+  }
+}
 .home-wi h3 {
   margin-top: 30px;
 }
@@ -132,4 +137,46 @@ body {
 }
 .bookmark a + a {
   margin-left: 10px;
+}
+.calendarium h4 {
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+.calendarium th {
+  text-align: center;
+  background: #006dcc linear-gradient(to bottom, #0088cc, #0044cc);
+  color: #fff;
+  text-transform: uppercase;
+  border-color: rgba(0, 0, 0, 0.1);
+  border-top-width: 0;
+  border-bottom-width: 0;
+  width: 14.28%;
+}
+.calendarium td {
+  border-color: #e1e1e1;
+}
+.calendarium td a {
+  color: #000;
+  display: block;
+  height: 100px;
+}
+.calendarium td.empty {
+  background: #ededed;
+}
+.calendarium td.active {
+  background: #faf2cc;
+}
+.calendarium td .title {
+  font-size: 15px;
+  font-weight: bold;
+}
+.calendarium td .title span {
+  background: #eeeeee;
+  border-radius: 5px;
+  border: 1px solid #CCC;
+  padding: 5px 10px;
+  display: inline-block;
+}
+.calendarium td div + div {
+  margin-top: 5px;
 }

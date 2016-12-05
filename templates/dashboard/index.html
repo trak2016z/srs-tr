@@ -5,6 +5,22 @@
         <h3>Zarządzanie systemem</h3>
         <div class="row">
             <div class="col-md-3">
+                <a href="{% url "dashboard.calendar" %}" class="tile-box btn-warning">
+                    <div class="tile-header">Kalendarz rezerwacji</div>
+                    <div class="tile-content">
+                        <span><i class="fa fa-calendar"></i></span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="{% url "dashboard.pendings" %}" class="tile-box btn-danger">
+                    <div class="tile-header">Oczekujące prośby</div>
+                    <div class="tile-content">
+                        <span>{{ reservations_waiting_count }}</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
                 <a href="{% url "dashboard.rooms" %}" class="tile-box btn-primary">
                     <div class="tile-header">Sale</div>
                     <div class="tile-content">
@@ -17,22 +33,6 @@
                     <div class="tile-header">Użytkownicy</div>
                     <div class="tile-content">
                         <span>{{ users_count }}</span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="#" class="tile-box btn-warning">
-                    <div class="tile-header"></div>
-                    <div class="tile-content">
-                        <span></span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="#" class="tile-box btn-danger">
-                    <div class="tile-header"></div>
-                    <div class="tile-content">
-                        <span></span>
                     </div>
                 </a>
             </div>

@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.conf.urls.static import static
-from django.shortcuts import render_to_response, render
-from django.template import RequestContext
+from django.shortcuts import render
 
 from app import settings
 from app.utils import captcha
+from dashboard.controllers import ajax
 from srs.controllers import account
 from srs.controllers import home
 from srs.controllers.forgotten_password import forgotten_password_cont, reset_password_cont

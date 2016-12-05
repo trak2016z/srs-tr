@@ -10,7 +10,7 @@
                 {% endblock %}
             </div>
             <div class="col-md-3">
-                <div id="sidebar">
+                <aside id="sidebar">
                     {% if user.is_staff %}
                         <div class="card card-inverse bg-primary">
                             <div class="p-1">
@@ -20,6 +20,8 @@
                         </div>
                         <ul class="list-group">
                             <li class="list-group-item"><i class="fa fa-chevron-right"></i> <a href="{% url "dashboard.index" %}">strona główna</a></li>
+                            <li class="list-group-item"><i class="fa fa-chevron-right"></i> <a href="{% url "dashboard.calendar" %}">kalendarz rezerwacji</a></li>
+                            <li class="list-group-item"><i class="fa fa-chevron-right"></i> <a href="{% url "dashboard.pendings" %}">oczekujące prośby</a></li>
                             <li class="list-group-item"><i class="fa fa-chevron-right"></i> <a href="{% url "dashboard.rooms" %}">sale</a></li>
                             <li class="list-group-item"><i class="fa fa-chevron-right"></i> <a href="{% url "dashboard.users" %}">użytkownicy</a></li>
                         </ul>
@@ -32,10 +34,11 @@
                         </div>
                         <ul class="list-group">
                             <li class="list-group-item"><i class="fa fa-chevron-right"></i> <a href="{% url "dashboard.guard" %}">strona główna</a></li>
+                            <li class="list-group-item"><i class="fa fa-chevron-right"></i> <a href="{% url "dashboard.pendings" %}">oczekujące prośby</a></li>
                             <li class="list-group-item"><i class="fa fa-chevron-right"></i> <a href="{% url "dashboard.guard.rooms" %}">sale</a></li>
                         </ul>
                     {% endif %}
-                </div>
+                </aside>
             </div>
         </div>
 

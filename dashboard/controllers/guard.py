@@ -1,14 +1,20 @@
 from django.shortcuts import render
 
-from app.models import Room, Supervisor_Room
+from app import consts
+from app.models import Room, Supervisor_Room, Reservation
 from app.utils.decorator import supervisor_required
 from app.utils.pagination import Pagination
 
 
 @supervisor_required
 def index_cont(request):
+    sr = Supervisor_Room.objects.filter(user=request.user)
+    lst = []
+    for s in sr:
+        lst.append(s.room.id)
     return render(request, 'dashboard/guard/index.html', {
-        "rooms_count": Supervisor_Room.objects.filter(user=request.user).count()
+        "rooms_count": sr.count(),
+        "reservations_waiting_count": Reservation.objects.filter(room__in=lst, status=consts.RESERVATION_STATUS_WAITING).count()
     })
 
 

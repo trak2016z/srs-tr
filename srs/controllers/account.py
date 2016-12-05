@@ -102,8 +102,8 @@ def reservations_room(request, room_id, page=1):
     pagination.args = {'room_id': room_id}
     pagination.page = int(page)
     pagination.perPage = 20
-    pagination.count = Reservation.objects.filter(user=request.user).count()
-    history = Reservation.objects.filter(user=request.user).order_by('-request_date')[pagination.ifrom:pagination.ito]
+    pagination.count = Reservation.objects.filter(room__id=room_id, user=request.user).count()
+    history = Reservation.objects.filter(room__id=room_id, user=request.user).order_by('-request_date')[pagination.ifrom:pagination.ito]
     return render(request, 'account/reservations_room.html', {
         'room': room,
         'history': history,

@@ -5,34 +5,18 @@
         <h3>Panel opiekuna</h3>
         <div class="row">
             <div class="col-md-3">
+                <a href="{% url "dashboard.pendings" %}" class="tile-box btn-danger">
+                    <div class="tile-header">Oczekujące prośby</div>
+                    <div class="tile-content">
+                        <span>{{ reservations_waiting_count }}</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
                 <a href="{% url "dashboard.guard.rooms" %}" class="tile-box btn-primary">
                     <div class="tile-header">Sale, którymi się opiekujesz</div>
                     <div class="tile-content">
                         <span>{{ rooms_count }}</span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="#" class="tile-box btn-success">
-                    <div class="tile-header"></div>
-                    <div class="tile-content">
-                        <span></span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="#" class="tile-box btn-warning">
-                    <div class="tile-header"></div>
-                    <div class="tile-content">
-                        <span></span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="#" class="tile-box btn-danger">
-                    <div class="tile-header"></div>
-                    <div class="tile-content">
-                        <span></span>
                     </div>
                 </a>
             </div>

@@ -1,0 +1,10 @@
+{% extends 'dashboard/template_dashboard.html' %}
+
+{% block main %}
+    <div id="main">
+        <h3>Kalendarz rezerwacji <small>&raquo; wybór sali</small></h3>
+        <div class="col-md-6 offset-md-3 text-xs-center">
+            <input id="autocomplete_room" class="form-control" data-ajax-url="{% url "ajax.dashboard.rooms" %}" name="room" placeholder="podaj nazwę sali" />
+        </div>
+    </div>
+{% endblock %}

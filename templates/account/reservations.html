@@ -3,6 +3,7 @@
 {% block main %}
     <div id="main">
         <h3>Moje rezerwacje</h3>
+        {% if rooms %}
         <div class="row">
         {% for r in rooms %}
             <div class="col-md-6">
@@ -23,6 +24,7 @@
                         {% endfor %}
                     {% endif %}
                     {% if r.waiting %}
+                        {% if r.accepted %}<hr style="margin: 0;">{% endif %}
                         {% for i in r.waiting %}
                             <div class="pt-1 px-1">
                                 <p>Termin: <strong>{{ i.date_from_format }}</strong> - <strong>{{ i.date_to_format }}</strong></p>
@@ -37,5 +39,8 @@
             </div>
         {% endfor %}
         </div>
+        {% else %}
+            <div class="alert alert-info">Nie złożyłeś(aś) jeszcze żadnych rezerwacji.</div>
+        {% endif %}
     </div>
 {% endblock %}
