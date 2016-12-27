@@ -10,6 +10,9 @@ body {
 .fa-7x {
   font-size: 700%;
 }
+.fa-3x {
+  font-size: 300%;
+}
 .captcha {
   border: 1px solid #DDD;
   border-radius: 4px;
@@ -30,6 +33,7 @@ body {
   border-width: 1px;
   border-style: solid;
   border-radius: 4px;
+  margin-top: 15px;
 }
 .tile-box:hover,
 .tile-box:focus {
@@ -73,10 +77,13 @@ body {
 }
 #menu #menu_navbar ul.navbar-nav li.nav-item .nav-link {
   color: #ccc;
+  border-bottom: 1px solid transparent;
+  transition: border 0.5s;
 }
 #menu #menu_navbar ul.navbar-nav li.nav-item .nav-link:focus,
 #menu #menu_navbar ul.navbar-nav li.nav-item .nav-link:hover {
   color: #ffffff;
+  border-bottom-color: #ffffff;
 }
 #menu #menu_navbar ul.navbar-nav li.nav-item .nav-link i {
   margin-right: 4px;
@@ -153,18 +160,25 @@ body {
   width: 14.28%;
 }
 .calendarium td {
-  border-color: #e1e1e1;
+  border-color: #cccccc;
 }
 .calendarium td a {
   color: #000;
   display: block;
-  height: 100px;
+  min-height: 100px;
+  min-width: 100px;
+}
+.calendarium td a:hover {
+  text-decoration: none;
 }
 .calendarium td.empty {
-  background: #ededed;
+  background: #dddddd;
 }
 .calendarium td.active {
   background: #faf2cc;
+}
+.calendarium td.nava {
+  background: #eee;
 }
 .calendarium td .title {
   font-size: 15px;
@@ -179,4 +193,64 @@ body {
 }
 .calendarium td div + div {
   margin-top: 5px;
+}
+.card-box {
+  color: #fff;
+}
+.card-box h3 {
+  margin-bottom: 0 !important;
+}
+.card-box a,
+.card-box a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+.calendar-day {
+  border-collapse: collapse;
+  width: 100%;
+  position: relative;
+}
+.calendar-day tr {
+  position: relative;
+}
+.calendar-day td {
+  border: 1px solid #DDD;
+  height: 30px;
+  text-align: center;
+  background: #eee;
+  position: relative;
+}
+.calendar-day td:first-child {
+  width: 90px;
+  background: #fff;
+}
+.calendar-day td.ava {
+  background: #fff;
+}
+.calendar-day .text {
+  border-bottom-color: transparent;
+}
+.calendar-day .text2 {
+  border-top-color: transparent;
+}
+.reserv {
+  z-index: 100;
+  background: #0275d8;
+  position: absolute;
+  color: #fff;
+  font-size: 12px;
+  text-align: left;
+  top: 0;
+  left: 0;
+  height: 30px;
+  padding: 0 8px;
+  width: 100%;
+  line-height: 15px;
+}
+.reserv p {
+  margin: 0;
+  padding: 6px 0;
+}
+.reserv span {
+  padding: 0 8px;
 }

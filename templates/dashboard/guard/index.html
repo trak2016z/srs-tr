@@ -5,6 +5,14 @@
         <h3>Panel opiekuna</h3>
         <div class="row">
             <div class="col-md-3">
+                <a href="{% url "dashboard.calendar" %}" class="tile-box btn-warning">
+                    <div class="tile-header">Kalendarz rezerwacji</div>
+                    <div class="tile-content">
+                        <span><i class="fa fa-calendar"></i></span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
                 <a href="{% url "dashboard.pendings" %}" class="tile-box btn-danger">
                     <div class="tile-header">Oczekujące prośby</div>
                     <div class="tile-content">

@@ -16,6 +16,19 @@ def month_name(month):
     return lmn[month-1]
 
 
+def dayw_name(day_of_week):
+    lmn = ["Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"]
+    return lmn[day_of_week - 1]
+
+
+# indeks numeru tygodnia pierwszego dnia (1 - Pon, 7 - Nd)
+def dayw_name_date(day, month, year):
+    dat = datetime.datetime(year=year, month=month, day=day)
+    dat_w = int(dat.strftime("%w"))
+    dat_w2 = dat_w if dat_w > 0 else 7
+    return dayw_name(dat_w2)
+
+
 # indeks numeru tygodnia pierwszego dnia (1 - Pon, 7 - Nd)
 def w_first_day(month, year):
     dat = datetime.datetime(year=year, month=month, day=1)

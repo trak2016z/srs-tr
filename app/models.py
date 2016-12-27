@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from datetime import date, datetime
 from django.contrib.auth.hashers import BCryptSHA256PasswordHasher
 from django.contrib.auth.models import UserManager
 from django.db import models
@@ -108,12 +109,14 @@ class Reservation(models.Model):
     id = models.AutoField(primary_key=True)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    event_name = models.CharField(max_length=255, default="")
     date_from = models.DateTimeField()
     date_to = models.DateTimeField()
     request_date = models.DateTimeField(default=timezone.now)
     status = models.CharField(default='0', max_length=1)
     considered_date = models.DateTimeField(null=True)
     considered_user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='considered')
+    reason = models.CharField(null=True, max_length=255)
 
     @property
     def is_accepted(self):
@@ -138,4 +141,36 @@ class Reservation(models.Model):
     @property
     def date_to_format(self):
         return date_format_short(self.date_to)
+
+    @property
+    def hour_from_format(self):
+        return self.date_from.strftime('%H:%M')
+
+    @property
+    def hour_to_format(self):
+        return self.date_to.strftime('%H:%M')
+
+    @property
+    def seconds_diff(self):
+        diff = self.date_to - self.date_from
+        return diff.seconds
+
+
+class Availability_Room(models.Model):
+    id = models.AutoField(primary_key=True)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    day_of_week = models.IntegerField()
+    hour_from = models.CharField(max_length=5, default="00:00")
+    hour_to = models.CharField(max_length=5, default="23:59")
+    since = models.DateField(default=date.today)
+    until = models.DateField(default=date.today)
+
+    @property
+    def seconds_diff(self):
+        hf = self.hour_from.split(":")
+        date_hf = timezone.datetime(day=1, month=1, year=2016, hour=int(hf[0]), minute=int(hf[1]), second=0)
+        ht = self.hour_to.split(":")
+        date_ht = timezone.datetime(day=1, month=1, year=2016, hour=int(ht[0]), minute=int(ht[1]), second=0)
+        diff = date_ht - date_hf
+        return diff.seconds
 

@@ -42,7 +42,7 @@ def accept_cont(request, id):
     return redirect('dashboard.pendings')
 
 
-@admin_required
+@supervisor_required
 def reject_cont(request, id):
     res = get_object_or_404(Reservation, pk=id)
     if not request.user.is_staff:
@@ -51,6 +51,8 @@ def reject_cont(request, id):
     res.status = consts.RESERVATION_STATUS_REJECTED
     res.considered_date = datetime.datetime.now()
     res.considered_user = request.user
+    if request.method == 'POST':
+        res.reason = request.POST.get('reason')
     res.save()
     request.session['message'] = 'Rezerwacja została odrzucona.'
     return redirect('dashboard.pendings')

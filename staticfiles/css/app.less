@@ -6,6 +6,7 @@ body {
 
 .fa-10x { font-size: 1000%; }
 .fa-7x { font-size: 700%; }
+.fa-3x { font-size: 300%; }
 
 .captcha { border: 1px solid #DDD; border-radius: 4px; }
 .captcha_reload { margin-left: 5px; font-size: 18px; }
@@ -21,6 +22,7 @@ body {
     border-width: 1px;
     border-style: solid;
     border-radius: 4px;
+    margin-top: 15px;
     &:hover, &:focus {
         text-decoration: none;
         color: #fff;
@@ -62,8 +64,11 @@ body {
                 }
                 .nav-link {
                     color: #ccc;
+                    border-bottom: 1px solid transparent;
+                    transition: border 0.5s;
                     &:focus, &:hover {
                         color: #ffffff;
+                        border-bottom-color: #ffffff;
                     }
                     i {
                         margin-right: 4px;
@@ -158,14 +163,21 @@ body {
         a {
             color: #000;
             display: block;
-            height: 100px;
+            min-height: 100px;
+            min-width: 100px;
         }
-        border-color: #e1e1e1;
+        a:hover {
+            text-decoration: none;
+        }
+        border-color: #cccccc;
         &.empty {
-            background: #ededed;
+            background: #dddddd;
         }
         &.active {
             background: #faf2cc;
+        }
+        &.nava {
+            background: #eee;
         }
         .title {
             font-size: 15px;
@@ -181,5 +193,67 @@ body {
         div + div {
             margin-top: 5px;
         }
+    }
+}
+
+.card-box {
+    color: #fff;
+    h3 {
+        margin-bottom: 0 !important;
+    }
+    a, a:hover {
+        color: #fff;
+        text-decoration: none;
+    }
+}
+
+.calendar-day {
+    border-collapse: collapse;
+    width: 100%;
+    position: relative;
+    tr {
+        position: relative;
+    }
+    td {
+        border: 1px solid #DDD;
+        height: 30px;
+        text-align: center;
+        background: #eee;
+        position: relative;
+    }
+    td:first-child {
+        width: 90px;
+        background: #fff;
+    }
+    td.ava {
+        background: #fff;
+    }
+    .text {
+        border-bottom-color: transparent;
+    }
+    .text2 {
+        border-top-color: transparent;
+    }
+}
+
+.reserv {
+    z-index: 100;
+    background: #0275d8;
+    position: absolute;
+    color: #fff;
+    font-size: 12px;
+    text-align: left;
+    top: 0;
+    left: 0;
+    height: 30px;
+    padding: 0 8px;
+    width: 100%;
+    line-height: 15px;
+    p {
+        margin: 0;
+        padding: 6px 0;
+    }
+    span {
+        padding: 0 8px;
     }
 }

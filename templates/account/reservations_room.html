@@ -25,7 +25,10 @@
                                 {% if h.is_accepted %}
                                     <span class="text-success"><i class="fa fa-check-circle"></i> POTWIERDZONA</span>
                                 {% elif h.is_rejected %}
-                                    <span class="text-danger"><i class="fa fa-minus-circle"></i> ODRZUCONA PRZEZ OPIEKUNA SALI</span>
+                                    <span class="text-danger"><i class="fa fa-minus-circle"></i> ODRZUCONA PRZEZ OPIEKUNA SALI
+                                    {% if h.reason  %}
+                                        <i class="fa fa-info-circle" title="Powód: {{ h.reason }}"></i>
+                                    {% endif %}</span>
                                 {% elif h.is_waiting %}
                                     <span class="text-primary"><i class="fa fa-question-circle"></i> OCZEKUJE NA POTWIERDZENIE</span>
                                 {% elif h.is_cancelled %}
@@ -33,7 +36,7 @@
                                 {% endif %}
                             </td>
                             <td class="text-xs-center">
-                                {% if h.is_accepted or h.is_waiting %}
+                                {% if h.can_reject %}
                                     <a href="{% url "account.reservations.room.delete" room_id=room.id id=h.id %}" class="btn btn-danger btn-sm" data-toggle="confirm" title="Na pewno chcesz wycofać tę rezerwację sali?!<br />Sala: {{ room.name }}<br />Termin rezerwacji: {{ h.date_from_format }} - {{ h.date_to_format }}">wycofaj</a>
                                 {% endif %}
                             </td>

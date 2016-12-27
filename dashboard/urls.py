@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from dashboard.controllers import ajax
+from dashboard.controllers import availability
 from dashboard.controllers import calendar
 from dashboard.controllers import guard
 from dashboard.controllers import index
@@ -23,8 +24,14 @@ urlpatterns = [
     url(r'^users/page,(?P<page>[0-9]+)$', users.index_cont, name='dashboard.users.page'),
 
     url(r'^calendar/room/(?P<id>[0-9]+)/date,(?P<month>[0-9]+),(?P<year>[0-9]+)', calendar.room_cont, name='dashboard.calendar.room.date'),
+    url(r'^calendar/room/(?P<id>[0-9]+)/accept/(?P<rid>[0-9]+)', calendar.room_accept_cont, name='dashboard.calendar.room.accept'),
+    url(r'^calendar/room/(?P<id>[0-9]+)/reject/(?P<rid>[0-9]+)', calendar.room_reject_cont, name='dashboard.calendar.room.reject'),
     url(r'^calendar/room/(?P<id>[0-9]+)', calendar.room_cont, name='dashboard.calendar.room'),
     url(r'^calendar', calendar.index_cont, name='dashboard.calendar'),
+
+    url(r'^availability/room/(?P<id>[0-9]+)/date,(?P<month>[0-9]+),(?P<year>[0-9]+)/add', availability.room_add_cont, name='dashboard.availability.room.add'),
+    url(r'^availability/room/(?P<id>[0-9]+)/date,(?P<month>[0-9]+),(?P<year>[0-9]+)/delete/(?P<aid>[0-9]+)', availability.room_delete_cont, name='dashboard.availability.room.delete'),
+    url(r'^availability/room/(?P<id>[0-9]+)/date,(?P<month>[0-9]+),(?P<year>[0-9]+)', availability.room_cont, name='dashboard.availability.room'),
 
     url(r'^pendings/reject/(?P<id>[0-9]+)', pendings.reject_cont, name='dashboard.pendings.reject'),
     url(r'^pendings/accept/(?P<id>[0-9]+)', pendings.accept_cont, name='dashboard.pendings.accept'),
@@ -35,7 +42,7 @@ urlpatterns = [
     url(r'^guard$', guard.index_cont, name='dashboard.guard'),
 
     url(r'^ajax/dashboard_rooms.json', ajax.rooms_search, name='ajax.dashboard.rooms'),
-    url(r'^ajax/calendar/day/(?P<day>[0-9]+)-(?P<month>[0-9]+)-(?P<year>[0-9]+)', ajax.calendar_day, name='ajax.calendar.day'),
+    url(r'^ajax/calendar/room/(?P<id>[0-9]+)/day/(?P<day>[0-9]+)-(?P<month>[0-9]+)-(?P<year>[0-9]+)', ajax.calendar_day, name='ajax.calendar.day'),
 
     url(r'^$', index.index_cont, name='dashboard.index'),
 ]

@@ -1,6 +1,8 @@
 {% extends 'dashboard/template_dashboard.html' %}
 
 {% block main %}
+    {% load staticfiles %}
+    <script src="{% static "js/app_admin_calendar.js" %}"></script>
     <div id="main">
         <h3>Kalendarz rezerwacji <small>&raquo; wybór sali</small></h3>
         <div class="col-md-6 offset-md-3 text-xs-center">

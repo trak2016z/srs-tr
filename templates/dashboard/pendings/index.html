@@ -13,6 +13,7 @@
                     <tr>
                         <th class="text-xs-center">Sala</th>
                         <th class="text-xs-center">Termin rezerwacji</th>
+                        <th class="text-xs-center">Tytuł wydarzenia</th>
                         <th class="text-xs-center">Dla kogo</th>
                         <th class="text-xs-center" colspan="2">Opcje</th>
                     </tr>
@@ -21,16 +22,17 @@
                     {% for r in lst %}
                         <tr>
                             <td>{{ r.room.name }} - {{ r.room.city }}</td>
-                            <td class="text-xs-center">{{ r.date_from }} - {{ r.date_to }}</td>
+                            <td class="text-xs-center">{{ r.date_from }}<br />{{ r.date_to }}</td>
+                            <td class="text-xs-center">{{ r.event_name }}</td>
                             <td class="text-xs-center">{{ r.user.first_name }} {{ r.user.last_name }}</td>
                             <td class="text-xs-center"><a href="{% url "dashboard.pendings.accept" id=r.id %}" data-toggle="confirm" title="Na pewno chcesz zaakceptować tę rezerwację?!" class="btn btn-sm btn-success">akceptuj</a></td>
-                            <td class="text-xs-center"><a href="{% url "dashboard.pendings.reject" id=r.id %}" data-toggle="confirm" title="Na pewno chcesz odrzucić tę rezerwację?!" class="btn btn-sm btn-danger">odrzuć</a></td>
+                            <td class="text-xs-center"><a href="{% url "dashboard.pendings.reject" id=r.id %}" data-toggle="reject" title="Na pewno chcesz odrzucić tę rezerwację?!" class="btn btn-sm btn-danger">odrzuć</a></td>
                         </tr>
                     {% endfor %}
                 </table>
             </div>
         {% else %}
-            <div class="alert alert-info">Lista jest pusta.</div>
+            <div class="alert alert-info">W tej chwili nie ma oczekujących prośb.</div>
         {% endif %}
     </div>
 {% endblock %}

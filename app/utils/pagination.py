@@ -8,6 +8,7 @@ class Pagination():
     count = 0
     name = "page"
     url = None
+    url_add = ""
 
     @property
     def ifrom(self):

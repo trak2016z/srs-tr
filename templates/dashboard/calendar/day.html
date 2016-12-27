@@ -1,1 +1,67 @@
-{{ day }} - {{ month }} - {{ year }}
+{% load staticfiles %}
+<script src="{% static "js/app_admin_calendar_day.js" %}"></script>
+
+{% if hours_str %}
+    <div class="alert alert-info">
+        <div class="float-xs-right"><i class="fa fa-calendar fa-3x"></i></div>
+        Sala w tym dniu jest dostępna w godzinach:
+        {% for h in hours_str %}
+            <br />{{ h.hfrom }} - {{ h.hto }}
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-danger">Sala w tym dniu nie jest dostępna.</div>
+{% endif %}
+
+<div id="cal-message" class="alert alert-success" style="display: none"></div>
+
+{% if reservations.count > 0 %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th class="text-xs-center">Termin</th>
+                <th class="text-xs-center">Wydarzenie</th>
+                <th class="text-xs-center">Dla kogo</th>
+                <th class="text-xs-center">Status</th>
+                <th class="text-xs-center">Opcje</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for r in reservations %}
+                <tr>
+                    <td>{{ r.date_from_format }}<br />{{ r.date_to_format }}</td>
+                    <td>{{ r.event_name }}</td>
+                    <td>{{ r.user }}</td>
+                    <td class="text-xs-center">
+                        {% if r.is_accepted %}
+                            <span class="text-success"><i class="fa fa-check-circle"></i> POTWIERDZONA</span>
+                        {% elif r.is_rejected %}
+                            <span class="text-danger"><i class="fa fa-minus-circle"></i> ODRZUCONA PRZEZ OPIEKUNA SALI
+                                {% if r.reason %}
+                                    <i class="fa fa-info-circle" title="Powód: {{ r.reason }}"></i>
+                                {% endif %}</span>
+                        {% elif r.is_waiting %}
+                            <span class="text-primary"><i
+                                    class="fa fa-question-circle"></i> OCZEKUJE NA POTWIERDZENIE</span>
+                        {% elif r.is_cancelled %}
+                            <span class="text-danger"><i
+                                    class="fa fa-minus-circle"></i> ANULOWANA PRZEZ UŻYTKOWNIKA</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-xs-center" style="white-space: nowrap">
+                        {% if r.is_accepted %}
+                            <a href="{% url "dashboard.calendar.room.reject" id=room.id rid=r.id %}" title="Na pewno chcesz wycofać tę rezerwację?!" class="cal-reject btn btn-sm btn-danger">WYCOFAJ</a>
+                        {% elif r.is_waiting %}
+                            <a href="{% url "dashboard.calendar.room.accept" id=room.id rid=r.id %}" class="cal-accept btn btn-success btn-sm" title="Na pewno chcesz zaakceptować tę rezerwację?">AKCEPTUJ</a>
+                            <a href="{% url "dashboard.calendar.room.reject" id=room.id rid=r.id %}" class="cal-reject btn btn-danger btn-sm" title="Na pewno chcesz odrzucić tę rezerwację?">ODRZUĆ</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">Brak rezerwacji w tym dniu.</div>
+{% endif %}

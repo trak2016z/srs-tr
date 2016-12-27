@@ -10,10 +10,12 @@
     <link rel="stylesheet" href="{% static "jquery.easy-autocomplete/easy-autocomplete.min.css" %}"/>
     <link rel="stylesheet" href="{% static "css/app.css" %}"/>
     <script src="{% static "jquery/jquery-3.1.1.min.js" %}"></script>
+    <script src="{% static "tether/js/tether.min.js" %}"></script>
     <script src="{% static "bootstrap-4.0.0-alpha.5/js/bootstrap.min.js" %}"></script>
     <script src="{% static "js/bootbox.min.js" %}"></script>
     <script src="{% static "jquery.easy-autocomplete/easy-autocomplete.min.js" %}"></script>
     <script src="{% static "js/app.js" %}"></script>
+    <link rel="shortcut icon" type="image/png" href="{% static "favicon.png" %}"/>
 </head>
 <body>
 
@@ -25,8 +27,11 @@
         </div>
         <div class="collapse navbar-toggleable-md" id="menu_navbar">
             <ul class="nav navbar-nav">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url "home" %}"><i class="fa fa-home"></i> Strona główna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "rooms.search" %}"><i class="fa fa-search"></i> Wyszukiwanie sal</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

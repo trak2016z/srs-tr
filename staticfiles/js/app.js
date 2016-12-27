@@ -1,68 +1,80 @@
 bootbox.setLocale('pl');
 
-$(document).ready(function() {
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
-    $('.captcha_reload').click(function() {
+$(document).ready(function () {
+
+    $('.captcha_reload').click(function () {
         var target = $($(this).attr('data-target'));
         var src = $(this).attr('data-url');
-        target.attr('src', src+'?r='+Math.random());
+        target.attr('src', src + '?r=' + Math.random());
         return false;
     });
 
-    $('a[data-toggle="confirm"]').click(function() {
+    $('a[data-toggle="confirm"]').click(function () {
         var href = $(this).attr('href');
         var title = $(this).attr('title') != undefined ? $(this).attr('title') : "Jesteś pewien?!";
-        bootbox.confirm(title, function(result) {
+        bootbox.confirm(title, function (result) {
             if (result) window.location.href = href;
         });
         return false;
     });
 
-    var options = {
-	    url: function(phrase) {
-		    return $('#autocomplete_room').attr('data-ajax-url')+'?phrase='+phrase;
-	    },
-	    listLocation: "rooms",
-        matchResponseProperty: "phrase",
-        getValue: function(element) {
-		    return element.name+' - '+element.city;
-	    },
-        template: {
-            type: "custom",
-            method: function(value, item) {
-			    var v = '<a href="'+item.link+'">'+value;
-                if (item.seats > 0) v += ' ('+item.seats+' miejsc)';
-                v += '</a>';
-                return v;
-		    }
-        }
-    };
-    $('#autocomplete_room').easyAutocomplete(options);
-
-    $('.calendar a.cal-day').click(function() {
-        var title = $(this).attr('data-title');
-        var ajaxHref = $(this).attr('data-ajax-href');
+    $('a[data-toggle="reject"]').click(function () {
+        var href = $(this).attr('href');
+        var title = $(this).attr('title') != undefined ? $(this).attr('title') : "Jesteś pewien?!";
         var dialog = bootbox.dialog({
-            title: "Kalendarz - "+title,
-            message: '<div><i class="fa fa-spin fa-spinner"></i> Trwa ładowanie...</div>',
-            onEscape: function () {
-                // window.location.reload();
-            },
+            title: title,
+            message: '<form id="reject-reason" action="' + href + '" method="post"><div class="row"><div class="col-sm-4">Możesz podać powód:</div><div class="col-sm-8"><input type="hidden" name="csrfmiddlewaretoken" value="'+getCookie('csrftoken')+'" /><input type="text" name="reason" class="form-control" maxlength="255" /></div></div></form>',
             buttons: {
                 cancel: {
-                    label: 'zamknij okno',
-                    callback: function() {
-                        // window.location.reload();
+                    label: 'Anuluj',
+                    callback: function () {
+                    }
+                },
+                confirm: {
+                    label: 'Potwierdź',
+                    callback: function () {
+                        $('form#reject-reason').submit();
                     }
                 }
             }
         });
-        dialog.init(function(){
-            $.get(ajaxHref, function(msg) {
+        dialog.init();
+        return false;
+    });
+
+    /* $('.cal-show-day').click(function() {
+        var ajaxHref =  $(this).attr('data-ajax-href');
+        var title = $(this).attr('title');
+        var dialog = bootbox.dialog({
+            title: title,
+            message: '<div><i class="fa fa-spin fa-spinner"></i> Trwa ładowanie...</div>',
+            buttons: {
+                cancel: {
+                    label: 'zamknij okno'
+                }
+            }
+        });
+        dialog.init(function () {
+            $.get(ajaxHref, function (msg) {
                 dialog.find('.bootbox-body').html(msg);
             });
         });
         return false;
-    });
+    }); */
 
 });

@@ -1,0 +1,36 @@
+{% extends 'template.html' %}
+
+{% block content %}
+    <div id="content" class="container">
+        <div class="float-xs-right"><a href="{% url "dashboard.calendar.room.date" id=room.id month=month year=year %}" class="btn btn-primary btn-sm">wróć do kalendarza</a></div>
+        <h3>Dostępność sali <small>&raquo; sala {{ room.name }}</small></h3>
+        {% if message %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endif %}
+        <div class="text-xs-center mb-1"><a href="{% url "dashboard.availability.room.add" id=room.id month=month year=year %}" class="btn btn-success">dodaj wpis</a></div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="text-xs-center">Dzień tygodnia</th>
+                    <th class="text-xs-center">Data obowiązywania</th>
+                    <th class="text-xs-center">Zakres godzinowy</th>
+                    <th class="text-xs-center">Opcje</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for a in av_list %}
+                <tr>
+                    <td class="text-xs-center">{{ a.dow }}</td>
+                    <td class="text-xs-center">{{ a.since }} - {{ a.until }}</td>
+                    <td class="text-xs-center">{{ a.hour_from }} - {{ a.hour_to }}</td>
+                    <td class="text-xs-center"><a href="{% url "dashboard.availability.room.delete" id=room.id month=month year=year aid=a.id %}" class="btn btn-danger btn-sm" data-toggle="confirm" title="Na pewno usunąć ten wpis?!">usuń wpis</a></td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="4">brak wpisów</td></tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

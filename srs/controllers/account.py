@@ -104,6 +104,8 @@ def reservations_room(request, room_id, page=1):
     pagination.perPage = 20
     pagination.count = Reservation.objects.filter(room__id=room_id, user=request.user).count()
     history = Reservation.objects.filter(room__id=room_id, user=request.user).order_by('-request_date')[pagination.ifrom:pagination.ito]
+    for h in history:
+        h.can_reject = h.date_from > timezone.now() and (h.is_accepted or h.is_waiting)
     return render(request, 'account/reservations_room.html', {
         'room': room,
         'history': history,

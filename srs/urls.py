@@ -22,6 +22,7 @@ from app.utils import captcha
 from dashboard.controllers import ajax
 from srs.controllers import account
 from srs.controllers import home
+from srs.controllers import rooms
 from srs.controllers.forgotten_password import forgotten_password_cont, reset_password_cont
 from srs.controllers.sign_in import sign_in_cont, sign_out_cont
 from srs.controllers.sign_up import sign_up_cont, activate_account_cont
@@ -45,6 +46,14 @@ urlpatterns = [
     url(r'^account/reservations/room,(?P<room_id>[0-9]+)', account.reservations_room, name='account.reservations.room'),
     url(r'^account/reservations', account.reservations, name='account.reservations'),
 
+    url(r'^rooms/(?P<id>[0-9]+)/day/(?P<day>[0-9]+)-(?P<month>[0-9]+)-(?P<year>[0-9]+)', rooms.one_day, name='rooms.one.day'),
+
+    url(r'^rooms/(?P<id>[0-9]+)/m,(?P<month>[0-9]+)/y,(?P<year>[0-9]+)', rooms.one, name='rooms.one'),
+    url(r'^rooms/(?P<id>[0-9]+)', rooms.one, name='rooms.one'),
+
+    url(r'^rooms/p,(?P<page>[0-9]+)', rooms.search, name='rooms.search.page'),
+    url(r'^rooms', rooms.search, name='rooms.search'),
+
     url(r'^dashboard/', include('dashboard.urls')),
     # url(r'^admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
@@ -56,5 +65,9 @@ def handler403(request):
 
 def handler404(request):
     return render(request, 'errors/404.html')
+
+
+def handler500(request):
+    return render(request, 'errors/500.html')
 
 

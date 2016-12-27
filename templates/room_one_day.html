@@ -1,0 +1,53 @@
+{% extends "template.html" %}
+
+{% block content %}
+    <div id="content" class="container">
+        <div class="float-xs-right">
+            <div class="btn-group">
+                <a href="{% url "rooms.one" id=room.id month=month year=year %}" class="btn btn-secondary btn-sm"><i class="fa fa-calendar"></i> miesiąc</a>
+                <a href="{% url "rooms.search" %}" class="btn btn-secondary btn-sm"><i class="fa fa-search"></i> wybór sali</a>
+            </div>
+        </div>
+        <h3>Sala {{ room.name }}</h3>
+        <h3 class="text-xs-center">
+            <a href="{% url "rooms.one.day" id=room.id day=prev_dat.day month=prev_dat.month year=prev_dat.year %}" class="btn btn-primary btn-sm mr-2"><i class="fa fa-arrow-left"></i></a>
+            {{ day_w }}, {{ day }} {{ month_str }} {{ year }}
+            <a href="{% url "rooms.one.day" id=room.id day=next_dat.day month=next_dat.month year=next_dat.year %}" class="btn btn-primary btn-sm ml-2"><i class="fa fa-arrow-right"></i></a>
+        </h3>
+        <div class="table-responsive">
+            <table class="calendar-day">
+                <tbody>
+                {% for h in hours %}
+                    <tr data-time="{{ h.ihour }}:{{ h.iminute }}">
+                        {% if forloop.counter|divisibleby:2 %}
+                            <td class="text2"></td>
+                        {% else %}
+                            <td class="text"><strong>{{ h.hour }}</strong></td>
+                        {% endif %}
+                        {% if h.ava %}
+                            <td class="ava">
+                        {% else %}
+                            <td>
+                        {% endif %}
+                            {% for r in h.reserv %}
+                                <div class="reserv" style="height: {{ r.hour_diff_height }}px; top: {{ r.hour_diff_top }}px">
+                                    <p>
+                                        <span>{{ r.hour_from_format }} - {{ r.hour_to_format }}</span>
+                                        <span>(<strong>{{ r.event_name }}</strong>)</span>
+                                    </p>
+                                    <p>
+                                        <span>Osoba rezerwująca: <strong>{{ r.user.first_name }} {{ r.user.last_name }}</strong></span>
+                                        {% if r.considered_user %}
+                                            <span>Zaakceptowane przez: <strong>{{ r.considered_user.first_name }} {{ r.considered_user.last_name }}</strong></span>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,6 +1,9 @@
 {% extends 'template.html' %}
 
 {% block content %}
+    {% load staticfiles %}
+    <script src="{% static "js/app_admin_calendar.js" %}"></script>
+
     <div id="content" class="container calendarium">
         <div class="float-xs-right"><a href="{% url "dashboard.calendar" %}" class="btn btn-primary btn-sm">wybierz inną salę</a></div>
         <h3>Kalendarz rezerwacji <small>&raquo; sala {{ room.name }}</small></h3>
@@ -14,14 +17,18 @@
                 <a href="{% url "dashboard.calendar.room" id=room.id %}" class="btn btn-secondary">dzisiaj</a>
             </div>
             <div class="btn-group">
-                <a href="{% url "dashboard.calendar.room" id=room.id %}" class="btn btn-secondary" onclick="alert('W trakcie prac');">#dostępność</a>
+                <a href="{% url "dashboard.availability.room" id=room.id month=month year=year %}" class="btn btn-secondary">dostępność</a>
             </div>
         </div>
 
         <h4>{{ month_str }} {{ year }}</h4>
 
+        {% if message %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endif %}
+
         <div class="table-responsive">
-            <table class="table table-bordered calendar">
+            <table class="table table-bordered">
                 <thead><tr>
                     <th>Poniedziałek</th>
                     <th>Wtorek</th>
@@ -45,8 +52,10 @@
                         {% else %}
                             <td>
                         {% endif %}
-                            <a href="#" class="cal-day" data-title="{{ i.nr }} {{ month_str }} {{ year }}" data-ajax-href="{% url "ajax.calendar.day" day=i.nr month=month year=year %}">
-                            <div class="title"><span>{{ i.nr }}</span></div>
+                        <a href="#" class="cal-day" data-title="{{ i.nr }} {{ month_str }} {{ year }}" data-ajax-href="{% url "ajax.calendar.day" id=room.id day=i.nr month=month year=year %}">
+                            <div class="title"><span>{{ i.nr }} {% if not i.availability %}
+                                <i class="fa fa-ban"></i>
+                            {% endif %}</span></div>
                             {% if i.count_waiting > 0 %}
                                 <div class="text-danger">Prośby: <strong>{{ i.count_waiting }}</strong></div>
                             {% endif %}

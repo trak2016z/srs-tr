@@ -1,0 +1,62 @@
+{% extends 'template.html' %}
+
+{% block content %}
+    <div id="content" class="container calendarium">
+        <div class="float-xs-right"><a href="{% url "rooms.search" %}" class="btn btn-secondary btn-sm">wróć do
+            wyszukiwarki</a></div>
+        <h3>Sala {{ room.name }}</h3>
+        <p class="lead"><i class="fa fa-map-marker"></i> {{ room.place }}</p>
+        {% if room.description %}
+            <p>{{ room.description }}</p>
+        {% endif %}
+        <h4 class="text-xs-center">
+            <a href="{% url "rooms.one" id=room.id month=prev_month year=prev_year %}" class="btn btn-primary btn-sm mr-2"><i class="fa fa-arrow-left"></i></a>
+            {{ month_str }} {{ year }}
+            <a href="{% url "rooms.one" id=room.id month=next_month year=next_year %}" class="btn btn-primary btn-sm ml-2"><i class="fa fa-arrow-right"></i></a>
+        </h4>
+        <p class="text-xs-center lead">Wybierz dzień, aby zobaczyć dostępnośc sali i ewentualnie ją zarezerwować.</p>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Poniedziałek</th>
+                    <th>Wtorek</th>
+                    <th>Środa</th>
+                    <th>Czwartek</th>
+                    <th>Piątek</th>
+                    <th>Sobota</th>
+                    <th>Niedziela</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    {% for i in current_first_day_range %}
+                        <td class="empty"></td>
+                    {% endfor %}
+                    {% for i in days %}
+                        {% if i.must_break %}
+                            </tr>
+                            <tr>
+                        {% endif %}
+                        {% if not i.ava %}
+                            <td class="nava">
+                        {% elif can_day_current == i.nr %}
+                            <td class="active">
+                        {% else %}
+                            <td>
+                        {% endif %}
+                            <a href="{% url "rooms.one.day" id=room.id day=i.nr month=month year=year %}" title="{{ i.nr }} {{ month_str }} {{ year }} - {{ i.dow }}">
+                                <div class="title">
+                                    <span>{{ i.nr }}</span>
+                                </div>
+                            </a>
+                        </td>
+                    {% endfor %}
+                    {% for i in how_end_range %}
+                        <td class="empty"></td>
+                    {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+{% endblock %}

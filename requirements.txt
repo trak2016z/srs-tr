@@ -7,3 +7,4 @@ pillow==3.1.1
 importlib==1.0.4
 bcrypt==3.1.1
 dj-static==0.0.6
+datashape==0.5.1
