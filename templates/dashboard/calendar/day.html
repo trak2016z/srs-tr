@@ -51,10 +51,10 @@
                     </td>
                     <td class="text-xs-center" style="white-space: nowrap">
                         {% if r.is_accepted %}
-                            <a href="{% url "dashboard.calendar.room.reject" id=room.id rid=r.id %}" title="Na pewno chcesz wycofać tę rezerwację?!" class="cal-reject btn btn-sm btn-danger">WYCOFAJ</a>
+                            <a href="#" data-ajax-href="{% url "dashboard.calendar.room.reject" id=room.id rid=r.id %}" title="Na pewno chcesz wycofać tę rezerwację?!" class="cal-reject btn btn-sm btn-danger">WYCOFAJ</a>
                         {% elif r.is_waiting %}
-                            <a href="{% url "dashboard.calendar.room.accept" id=room.id rid=r.id %}" class="cal-accept btn btn-success btn-sm" title="Na pewno chcesz zaakceptować tę rezerwację?">AKCEPTUJ</a>
-                            <a href="{% url "dashboard.calendar.room.reject" id=room.id rid=r.id %}" class="cal-reject btn btn-danger btn-sm" title="Na pewno chcesz odrzucić tę rezerwację?">ODRZUĆ</a>
+                            <a href="#" data-ajax-href="{% url "dashboard.calendar.room.accept" id=room.id rid=r.id %}" class="cal-accept btn btn-success btn-sm" title="Na pewno chcesz zaakceptować tę rezerwację?">AKCEPTUJ</a>
+                            <a href="#" data-ajax-href="{% url "dashboard.calendar.room.reject" id=room.id rid=r.id %}" class="cal-reject btn btn-danger btn-sm" title="Na pewno chcesz odrzucić tę rezerwację?">ODRZUĆ</a>
                         {% endif %}
                     </td>
                 </tr>

@@ -31,7 +31,7 @@
         {% if rooms %}
             <div class="row">
                 {% for r in rooms %}
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-4 col-sm-6">
                         <div class="card">
                             <div class="card-block card-primary card-box">
                                 <h3 class="card-title">
@@ -46,11 +46,11 @@
                                     <p class="card-text">{{ r.description }}</p>
                                 {% endif %}
                             </div>
-                            <div class="card-footer">
-                                {% if r.seats_number %}
+                            {% if r.seats_number %}
+                                <div class="card-footer">
                                     <p class="card-text">Liczba miejsc: <strong>{{ r.seats_number }}</strong></p>
-                                {% endif %}
-                            </div>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}

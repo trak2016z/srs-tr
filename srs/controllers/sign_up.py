@@ -24,32 +24,32 @@ def sign_up_cont(request):
     first_name = ''
     last_name = ''
     if request.method == 'POST':
-        first_name = request.POST.get('first_name')
+        first_name = request.POST.get('first_name', '')
         if len(first_name) == 0:
             errors.append('Nie podano imienia.')
         elif len(first_name) < 3:
             errors.append('Za krótkie imie.')
-        last_name = request.POST.get('last_name')
+        last_name = request.POST.get('last_name', '')
         if len(last_name) == 0:
             errors.append('Nie podano nazwiska.')
         elif len(last_name) < 3:
             errors.append('Za krótkie nazwisko.')
-        email = request.POST.get('email')
+        email = request.POST.get('email', '')
         if len(email) == 0:
             errors.append('Nie podano adresu email.')
         elif not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", email):
             errors.append('Format adresu email jest nieprawidłowy.')
         elif User.objects.filter(email=email).count() > 0:
             errors.append('Istnieje konto z takim adresem email.')
-        password = request.POST.get('password')
-        password2 = request.POST.get('password2')
+        password = request.POST.get('password', '')
+        password2 = request.POST.get('password2', '')
         if len(password) == 0:
             errors.append('Nie podano hasła.')
         elif len(password) < 6:
             errors.append('Za krótkie hasło. Przynajmniej 6 znaków.')
         elif password != password2:
             errors.append('Podane hasła nie są identyczne.')
-        captcha_value = request.POST.get('captcha')
+        captcha_value = request.POST.get('captcha', '')
         if len(captcha_value) == 0:
             errors.append('Nie podano kodu.')
         elif not captcha.is_valid(captcha_value):

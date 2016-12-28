@@ -17,6 +17,8 @@ function getCookie(name) {
 
 $(document).ready(function () {
 
+    $('[data-toggle="tooltip"]').tooltip();
+
     $('.captcha_reload').click(function () {
         var target = $($(this).attr('data-target'));
         var src = $(this).attr('data-url');
@@ -57,16 +59,21 @@ $(document).ready(function () {
         return false;
     });
 
-    /* $('.cal-show-day').click(function() {
+    $('.calendar-day .ava-reserve').click(function() {
         var ajaxHref =  $(this).attr('data-ajax-href');
-        var title = $(this).attr('title');
         var dialog = bootbox.dialog({
-            title: title,
+            title: 'Rezerwacja sali',
             message: '<div><i class="fa fa-spin fa-spinner"></i> Trwa ładowanie...</div>',
             buttons: {
                 cancel: {
-                    label: 'zamknij okno'
+                    label: 'zamknij okno',
+                    callback: function() {
+                        if ($('body').attr('reload') == "1") window.location.reload();
+                    }
                 }
+            },
+            onEscape: function() {
+                if ($('body').attr('reload') == "1") window.location.reload();
             }
         });
         dialog.init(function () {
@@ -75,6 +82,6 @@ $(document).ready(function () {
             });
         });
         return false;
-    }); */
+    });
 
 });

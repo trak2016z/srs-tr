@@ -20,12 +20,12 @@ def change(request):
     first_name = user.first_name
     last_name = user.last_name
     if request.method == 'POST' and request.POST.get('update'):
-        first_name = request.POST.get('first_name')
+        first_name = request.POST.get('first_name', '')
         if len(first_name) == 0:
             update_errors.append('Nie podano imienia.')
         elif len(first_name) < 3:
             update_errors.append('Za krótkie imie.')
-        last_name = request.POST.get('last_name')
+        last_name = request.POST.get('last_name', '')
         if len(last_name) == 0:
             update_errors.append('Nie podano nazwiska.')
         elif len(last_name) < 3:

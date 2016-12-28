@@ -45,10 +45,13 @@ def add_edit_cont(request, id=None):
             errors.append('Nie podano miasta.')
         room.address = request.POST.get('address')
         room.description = request.POST.get('description')
-        room.seats_number = request.POST.get('seats_number')
-        if len(room.seats_number) > 0:
-            if not re.match(r"(^[0-9]+$)", room.seats_number):
+        seats_number = request.POST.get('seats_number', '')
+        room.seats_number = 0
+        if len(seats_number) > 0:
+            if not re.match(r"(^[0-9]+$)", seats_number):
                 errors.append('Nieprawidłowy format liczby miejsc.')
+            else:
+                room.seats_number = seats_number
         room.auto_accepted = True if request.POST.get('auto_accepted') else False
         if len(errors) == 0:
             room.save()

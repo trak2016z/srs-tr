@@ -21,7 +21,7 @@
                             <td>{{ r.name }}</td>
                             <td>{{ r.place }}</td>
                             <td class="text-xs-center">{{ r.seats_number|default:"" }}</td>
-                            <td>
+                            <td class="text-xs-center">
                                 {% if r.auto_accepted %}
                                     <i class="fa fa-plus-square text-success" title="Propozycje są automatycznie akceptowane."></i>
                                 {% else %}

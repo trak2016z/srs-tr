@@ -103,7 +103,7 @@ DATABASES_LOCALHOST = {
     }
 }
 
-DATABASES = DATABASES_LOCALHOST
+DATABASES = DATABASES_HEROKU
 
 # Auth
 
@@ -122,7 +122,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -155,3 +155,7 @@ EMAIL_SMTP = {
     'USERNAME': 'system.rezerwacji.sal@gmail.com',
     'PASSWORD': 'systemrs16'
 }
+
+
+RES_HOUR_START = 6
+RES_HOUR_END = 22

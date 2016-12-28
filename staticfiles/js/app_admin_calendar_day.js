@@ -1,11 +1,11 @@
 $(document).ready(function () {
 
     $('.cal-accept').click(function() {
-        var href = $(this).attr('href');
+        var ajaxHref = $(this).attr('data-ajax-href');
         var title = $(this).attr('title');
         bootbox.confirm(title, function (result) {
             if (result) {
-                $.get(href, function(data) {
+                $.get(ajaxHref, function(data) {
                     if (data.executed) window.location.reload();
                 });
             }
@@ -14,7 +14,7 @@ $(document).ready(function () {
     });
 
     $('.cal-reject').click(function () {
-        var href = $(this).attr('href');
+        var ajaxHref = $(this).attr('data-ajax-href');
         var title = $(this).attr('title') != undefined ? $(this).attr('title') : "Jesteś pewien?!";
         var dialog = bootbox.dialog({
             title: title,
@@ -27,7 +27,7 @@ $(document).ready(function () {
                 confirm: {
                     label: 'Potwierdź',
                     callback: function () {
-                        $.post(href, {
+                        $.post(ajaxHref, {
                             reason: $('#cal-reject-reason').val(),
                             csrfmiddlewaretoken: getCookie('csrftoken')
                         }).done(function(data) {

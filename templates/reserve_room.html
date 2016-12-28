@@ -1,0 +1,96 @@
+{% load zero_prepend %}
+{% load staticfiles %}
+<script src="{% static "jquery/jquery-3.1.1.min.js" %}"></script>
+<script src="{% static "js/app_reserve.js" %}"></script>
+<form id="frr" action="#" method="post" class="form-horizontal"
+      data-ajax-href="{% url "reserve.room.post" id=room.id day=day month=month year=year %}" data-my-list-href="{% url "account.reservations" %}">
+    {% csrf_token %}
+    <div class="message"></div>
+    <div class="rest">
+        <div class="form-group row">
+            <label class="col-xs-4 text-xs-right form-control-label">Sala<span class="required">*</span>:</label>
+            <div class="col-xs-8">
+                {{ room.name }}<br/>
+                {{ room.place }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-4 text-xs-right form-control-label">Dzień<span class="required">*</span>:</label>
+            <div class="col-xs-8">
+                {{ dow }}, {{ day }} {{ month_name }} {{ year }}
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group row">
+            <label for="frr_from_hour" class="col-xs-4 text-xs-right form-control-label">Godzina<span
+                    class="required">*</span>:</label>
+            <div class="col-xs-8 form-inline">
+                <select id="frr_from_hour" name="from_hour" class="form-control">
+                    {% for h in hour_range %}
+                        {% if h == hour %}
+                            <option value="{{ h }}" selected="selected">{{ h | zero_prepend }}</option>
+                        {% else %}
+                            <option value="{{ h }}">{{ h | zero_prepend }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                :
+                <select name="from_minute" class="form-control">
+                    {% for m in minute_range %}
+                        {% if m == minute %}
+                            <option value="{{ m }}" selected="selected">{{ m | zero_prepend }}</option>
+                        {% else %}
+                            <option value="{{ m }}">{{ m | zero_prepend }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <span class="my-2">-</span>
+                <select name="to_hour" class="form-control">
+                    {% for h in hour_range %}
+                        {% if h == hour2 %}
+                            <option value="{{ h }}" selected="selected">{{ h | zero_prepend }}</option>
+                        {% else %}
+                            <option value="{{ h }}">{{ h | zero_prepend }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                :
+                <select name="to_minute" class="form-control">
+                    {% for m in minute_range %}
+                        {% if m == minute %}
+                            <option value="{{ m }}" selected="selected">{{ m | zero_prepend }}</option>
+                        {% else %}
+                            <option value="{{ m }}">{{ m | zero_prepend }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-4 text-xs-right form-control-label" for="frr_event_name">Nazwa wydarzenia<span
+                    class="required">*</span>:</label>
+            <div class="col-xs-8">
+                <input type="text" name="event_name" id="frr_event_name" class="form-control" maxlength="255" value=""/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xs-4 text-xs-right form-control-label">Osoba rezerwująca<span
+                    class="required">*</span>:</label>
+            <div class="col-xs-8">
+                {% if request.user.is_authenticated %}
+                    {{ request.user.first_name }} {{ request.user.last_name }}
+                {% else %}
+                    <div class="alert alert-danger">Musisz się zalogować, aby dokonać rezerwacji!</div>
+                    <div><a href="{% url "sign_in" %}" class="btn btn-primary"><i class="fa fa-user"></i> zaloguj
+                        się</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% if request.user.is_authenticated %}
+            <div class="form-group px-2">
+                <button type="submit" class="btn btn-success btn-block">ZAREZERWUJ SALĘ</button>
+            </div>
+        {% endif %}
+    </div>
+</form>

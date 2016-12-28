@@ -233,7 +233,7 @@ body {
 .calendar-day .text2 {
   border-top-color: transparent;
 }
-.reserv {
+.calendar-day .reserv {
   z-index: 100;
   background: #0275d8;
   position: absolute;
@@ -247,10 +247,13 @@ body {
   width: 100%;
   line-height: 15px;
 }
-.reserv p {
+.calendar-day .reserv p {
   margin: 0;
   padding: 6px 0;
 }
-.reserv span {
+.calendar-day .reserv span {
   padding: 0 8px;
+}
+.calendar-day .ava {
+  cursor: pointer;
 }

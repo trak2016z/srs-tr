@@ -3,14 +3,15 @@ import re
 
 import math
 import datetime
-from time import timezone
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.utils import timezone
 
 from app import consts
 from app.models import Room, Reservation, Availability_Room
+from app.settings import RES_HOUR_START, RES_HOUR_END
 from app.utils.availability import availability_by_date, availability_hours_by_date, availability_inrange
 from app.utils.date import month_days, w_first_day, month_name, dayw_name, dayw_name_date
 from app.utils.pagination import Pagination
@@ -69,7 +70,7 @@ def search(request, page=1):
 
 def one(request, id, month=None, year=None):
     room = get_object_or_404(Room, pk=id)
-    today = datetime.datetime.today()
+    today = datetime.date.today()
     month = today.month if month is None else int(month)
     year = today.year if year is None else int(year)
     prev_year = year - 1 if month <= 1 else year
@@ -82,9 +83,12 @@ def one(request, id, month=None, year=None):
     for i in range(1, md + 1):
         must_break = (len(current_first_day_range) + i) % 7 == 1
         dow = (w_first_day(month, year) + i) % 7 - 1
-        ava = availability_by_date(room.id, i, month, year)
+        ava = None
+        past = today > datetime.date(day=i, month=month, year=year)
+        if not past:
+            ava = availability_by_date(room.id, i, month, year)
         events = Reservation.objects.filter(room__id=id).order_by('date_from')
-        days.append({"nr": i, "must_break": must_break, "ava": ava,"dow":dayw_name(dow),"events":events})
+        days.append({"nr": i, "must_break": must_break, "past": past, "ava": ava, "dow":dayw_name(dow), "events":events})
     how_end = int(math.ceil((len(current_first_day_range) + md) / 7.)) * 7 - md - len(current_first_day_range)
     can_day_current = today.day if year == today.year and month == today.month else None
     return render(request, 'room_one.html', {
@@ -105,6 +109,7 @@ def one(request, id, month=None, year=None):
 
 def one_day(request, id, day, month, year):
     room = get_object_or_404(Room, pk=id)
+    today = datetime.date.today()
     day = int(day)
     month = int(month)
     year = int(year)
@@ -113,12 +118,15 @@ def one_day(request, id, day, month, year):
     dat = datetime.date(year=year, month=month, day=day)
     next_dat = dat + datetime.timedelta(days=+1)
     prev_dat = dat + datetime.timedelta(days=-1)
-    ava_tab = availability_hours_by_date(id, day, month, year)
-    for h in range(6, 23):
+    past_day = today > datetime.date(day=day, month=month, year=year)
+    ava_tab = None
+    if not past_day:
+        ava_tab = availability_hours_by_date(id, day, month, year)
+    for h in range(RES_HOUR_START, RES_HOUR_END+1):
         for m in range(0, 60, 30):
             ihour = "0"+str(h) if h < 10 else str(h)
             iminute = "0"+str(m) if m < 10 else str(m)
-            sdat = datetime.datetime(year=year, month=month, day=day, hour=h, minute=m)
+            sdat = timezone.make_aware(datetime.datetime(year=year, month=month, day=day, hour=h, minute=m), timezone.get_current_timezone())
             dw = int(sdat.strftime("%w"))
             dw = dw if dw > 0 else 7
 
@@ -129,9 +137,8 @@ def one_day(request, id, day, month, year):
                 m_next = 59
             ihour_next = "0" + str(h_next) if h_next < 10 else str(h_next)
             iminute_next = "0" + str(m_next) if m_next < 10 else str(m_next)
-            sdat_next = datetime.datetime(year=year, month=month, day=day, hour=h_next, minute=m_next)
-
-            reserv = Reservation.objects.filter(room__id=id, status=consts.RESERVATION_STATUS_ACCEPTED, date_from__gte=sdat, date_from__lte=sdat_next).order_by('-request_date')
+            sdat_next = timezone.make_aware(datetime.datetime(year=year, month=month, day=day, hour=h_next, minute=m_next), timezone.get_current_timezone())
+            reserv = Reservation.objects.filter(room__id=id, status=consts.RESERVATION_STATUS_ACCEPTED, date_from__gte=sdat, date_from__lt=sdat_next).order_by('-request_date')
             for r in reserv:
                 hf = r.hour_from_format.split(":")
                 hf_minute = int(hf[1]) - m
@@ -139,12 +146,6 @@ def one_day(request, id, day, month, year):
                 r.hour_diff_height = int(r.seconds_diff / 60.0 / 30.0 * one_height)
 
             ava = availability_inrange(ava_tab, h, m)
-
-            # av_hour_from = ihour + ":" + iminute
-            # av_hour_from_next = ihour_next + ":" + iminute_next
-            # availa = Availability_Room.objects.filter(room__id=id, day_of_week=dw, since__lte=sdat, until__gte=sdat, hour_from__gte=av_hour_from, hour_from__lt=av_hour_from_next)
-            # for a in availa:
-                # a.hour_diff_height = int(a.seconds_diff / 60.0 / 30.0 * one_height)
 
             hours.append({"hour": h, "ihour": ihour, "minute": m, "iminute": iminute, "reserv": reserv, "ava": ava})
     return render(request, 'room_one_day.html', {
@@ -156,5 +157,6 @@ def one_day(request, id, day, month, year):
         "hours": hours,
         "day_w": dayw_name_date(day, month, year),
         "next_dat": next_dat,
-        "prev_dat": prev_dat
+        "prev_dat": prev_dat,
+        "past_day": past_day
     })

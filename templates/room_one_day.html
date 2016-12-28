@@ -24,10 +24,10 @@
                         {% else %}
                             <td class="text"><strong>{{ h.hour }}</strong></td>
                         {% endif %}
-                        {% if h.ava %}
-                            <td class="ava">
+                        {% if h.ava and not h.reserv %}
+                            <td class="ava ava-reserve" data-ajax-href="{% url "reserve.room" id=room.id day=day month=month year=year hour=h.hour minute=h.minute %}" title="Kliknij, aby przejść do rezerwacji." data-toggle="tooltip">
                         {% else %}
-                            <td>
+                            <td data-toggle="tooltip" title="W tym terminie sala nie jest dostępna lub jest już zajęta.">
                         {% endif %}
                             {% for r in h.reserv %}
                                 <div class="reserv" style="height: {{ r.hour_diff_height }}px; top: {{ r.hour_diff_top }}px">

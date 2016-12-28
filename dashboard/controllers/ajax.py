@@ -19,7 +19,7 @@ def rooms_search(request):
     if request.user.is_staff:
         rooms_list = Room.objects.order_by('name')
     else:
-        for sr in Supervisor_Room.objects.filter(user=request.user):
+        for sr in Supervisor_Room.objects.filter(user=request.user).order_by('room__name'):
             rooms_list.append(sr.room)
     phrase = request.GET.get('phrase', '')
     r_list = []

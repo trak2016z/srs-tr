@@ -6,6 +6,9 @@
             wyszukiwarki</a></div>
         <h3>Sala {{ room.name }}</h3>
         <p class="lead"><i class="fa fa-map-marker"></i> {{ room.place }}</p>
+        {% if room.seats_number %}
+            <p class="lead"><i class="fa fa-users"></i> Liczba miejsc: {{ room.seats_number }}</p>
+        {% endif %}
         {% if room.description %}
             <p>{{ room.description }}</p>
         {% endif %}
@@ -38,7 +41,7 @@
                             </tr>
                             <tr>
                         {% endif %}
-                        {% if not i.ava %}
+                        {% if not i.ava or i.past %}
                             <td class="nava">
                         {% elif can_day_current == i.nr %}
                             <td class="active">

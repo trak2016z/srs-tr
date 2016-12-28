@@ -12,7 +12,8 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th class="text-xs-center">Termin rezerwacji</th>
+                        <th class="text-xs-center">Wydarzenie</th>
+                        <th class="text-xs-center">Termin</th>
                         <th class="text-xs-center">Status</th>
                         <th class="text-xs-center">Opcje</th>
                     </tr>
@@ -20,7 +21,8 @@
                     <tbody>
                     {% for h in history %}
                         <tr>
-                            <td class="text-xs-center">{{ h.date_from_format }} - {{ h.date_to_format }}</td>
+                            <td class="text-xs-center">{{ h.event_name }}</td>
+                            <td class="text-xs-center">{{ h.date_from_format }}<br />{{ h.date_to_format }}</td>
                             <td class="text-xs-center">
                                 {% if h.is_accepted %}
                                     <span class="text-success"><i class="fa fa-check-circle"></i> POTWIERDZONA</span>
