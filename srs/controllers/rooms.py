@@ -46,7 +46,7 @@ def search(request, page=1):
     mseats = request.GET.get('mseats', '0')
     if len(seats) > 0 and re.match(r"(^[0-9]+$)", seats):
         if mseats == "1":
-            rooms = rooms.filter(seats_number__lte=int(seats))
+            rooms = rooms.filter(seats_number__lte=int(seats)).exclude(seats_number=0)
         else:
             rooms = rooms.filter(seats_number__gte=int(seats))
     pagination = Pagination()

@@ -3,6 +3,7 @@ import smtplib
 from email.mime.text import MIMEText
 
 from app.settings import EMAIL_SMTP, SITE_TITLE
+from app.utils.logs import save_log
 
 
 def send_email(to, subject, text):
@@ -14,9 +15,15 @@ def send_email(to, subject, text):
     msg['Subject'] = subject + ' - ' + SITE_TITLE
     msg['From'] = from_addr
 
-    server = smtplib.SMTP(EMAIL_SMTP['HOST'], EMAIL_SMTP['PORT'])
-    server.ehlo()
-    server.starttls()
-    server.login(EMAIL_SMTP['USERNAME'], EMAIL_SMTP['PASSWORD'])
-    server.sendmail(from_addr, to_addrs, msg.as_string())
-    server.quit()
+    try:
+        server = smtplib.SMTP(EMAIL_SMTP['HOST'], EMAIL_SMTP['PORT'])
+        server.ehlo()
+        server.starttls()
+        server.login(EMAIL_SMTP['USERNAME'], EMAIL_SMTP['PASSWORD'])
+        server.sendmail(from_addr, to_addrs, msg.as_string())
+        server.quit()
+        return True
+    except Exception as e:
+        save_log("Sender Email Error\n"+str(e))
+        return False
+

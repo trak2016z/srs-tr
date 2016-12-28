@@ -23,6 +23,7 @@ from django.utils import timezone
 from app import settings
 from app.settings import BASE_DIR
 from app.utils import captcha
+from app.utils.logs import save_log
 from dashboard.controllers import ajax
 from srs.controllers import account
 from srs.controllers import home
@@ -83,14 +84,11 @@ def handler404(request):
 
 def handler500(request):
     typ, value, traceback = sys.exc_info()
-    now = timezone.datetime.now()
-    now_str = now.strftime('%Y-%m-%d %H_%M_%S')
-    f = open(BASE_DIR+'/app/logs/'+now_str+'.txt', 'w+')
-    f.write('500 | Internal Server Error\n')
-    f.write('Request: '+request.path+' ['+request.method+']\n')
-    f.write('Date: '+now_str+'\n')
-    f.write(str(typ)+'\n')
-    f.write(str(value))
+    message = '500 | Internal Server Error\n'
+    message += 'Request: '+request.path+' ['+request.method+']\n'
+    message += str(typ)+'\n'
+    message += str(value)
+    save_log(message)
     response = render_to_response('errors/500.html')
     response.status_code = 500
     return response
