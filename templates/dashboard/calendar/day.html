@@ -20,9 +20,9 @@
         <table class="table table-bordered table-striped">
             <thead>
             <tr>
-                <th class="text-xs-center">Termin</th>
-                <th class="text-xs-center">Wydarzenie</th>
-                <th class="text-xs-center">Dla kogo</th>
+                <th class="text-xs-center" style="min-width: 140px;">Termin</th>
+                <th class="text-xs-center" style="min-width: 140px;">Wydarzenie</th>
+                <th class="text-xs-center" style="min-width: 140px;">Dla kogo</th>
                 <th class="text-xs-center">Status</th>
                 <th class="text-xs-center">Opcje</th>
             </tr>
@@ -33,7 +33,7 @@
                     <td>{{ r.date_from_format }}<br />{{ r.date_to_format }}</td>
                     <td>{{ r.event_name }}</td>
                     <td>{{ r.user }}</td>
-                    <td class="text-xs-center">
+                    <td class="text-xs-center" style="white-space: nowrap">
                         {% if r.is_accepted %}
                             <span class="text-success"><i class="fa fa-check-circle"></i> POTWIERDZONA</span>
                         {% elif r.is_rejected %}
